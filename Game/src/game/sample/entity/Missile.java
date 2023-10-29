@@ -1,6 +1,6 @@
 package game.sample.entity;
 
-import game.sample.logic.GameFrameOld;
+import game.sample.logic.BossFrame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -47,6 +47,6 @@ public class Missile {
     }
 
     public boolean isOffScreen() {
-        return y > GameFrameOld.GAME_HEIGHT;
+        return y > BossFrame.GAME_HEIGHT;
     }
 }

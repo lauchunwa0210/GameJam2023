@@ -116,7 +116,4 @@ public class Girl {
         }
     }
 
-    public void shoot(){
-        gun.fire();
-    }
 }
