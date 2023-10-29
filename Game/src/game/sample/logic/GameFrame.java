@@ -28,7 +28,7 @@ import javax.swing.JFrame;
  *
  * @author Seyed Mohammad Ghaffarian
  */
-public class GameFrame extends JFrame {
+public class GameFrame extends BaseFrame {
 
 	public static final int GAME_HEIGHT = 720;                  // 720p game resolution
 	public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
@@ -40,7 +40,8 @@ public class GameFrame extends JFrame {
 
 	private BufferedImage backgroundImage;
 
-public class GameFrame extends BaseFrame {
+	StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
+	GameStart gameStarter = new GameStart();
 	public GameFrame(String title) {
 		super(title);
 		setResizable(false);
@@ -61,7 +62,7 @@ public class GameFrame extends BaseFrame {
 	}
 
 	// This method could be in your initialization or constructor
-	GameStart gameStarter = new GameStart();
+
 	@Override
 	public void loadBackgroundImage() {
 		try {
@@ -106,7 +107,7 @@ public class GameFrame extends BaseFrame {
 	/**
 	 * Rendering all game elements based on the game state.
 	 */
-	private void doRendering(Graphics2D g2d, GameState state) {
+	protected void doRendering(Graphics2D g2d, GameState state) {
 		// Draw background
 		loadBackgroundImage();
 		if (backgroundImage != null) {
@@ -151,8 +152,17 @@ public class GameFrame extends BaseFrame {
 		}
 	}
 	public void showMenu() {
+		ImageIcon backgroundImageIcon = new ImageIcon("Game/resource/image/cover.png");
+		Image backgroundImage = backgroundImageIcon.getImage();
 		// Create a panel for the menu
-		JPanel menuPanel = new JPanel(new GridBagLayout());
+		JPanel menuPanel = new JPanel(new GridBagLayout()){
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// Draw the background image
+				g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+			}
+		};
 		GridBagConstraints c = new GridBagConstraints();
 
 		// Title label
@@ -216,7 +226,7 @@ public class GameFrame extends BaseFrame {
 
 
 		menuPanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-		c.weighty = 0.5; // Larger weight to consume more vertical space
+		c.weighty = 0.2; // Larger weight to consume more vertical space
 		c.gridy = 3;   // Position at the bottom
 		menuPanel.add(new JPanel(), c); // Adding an empty, invisible panel
 
@@ -227,8 +237,10 @@ public class GameFrame extends BaseFrame {
 		this.pack();
 		this.setLocationRelativeTo(null); // Center on screen
 		this.setVisible(true);
+		musicPlayer.playMusic("Game/resource/music/MenuMusic.wav");
 	}
 	private void startGame() {
+		musicPlayer.stopMusic();
 		// Remove the menu panel from the frame
 		gameStarter.gameStart(GAME_WIDTH, GAME_HEIGHT, this);
 	}
