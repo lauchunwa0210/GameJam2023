@@ -1,5 +1,5 @@
 /*** In The Name of Allah ***/
-package game.sample.ball;
+package game.sample.logic;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
