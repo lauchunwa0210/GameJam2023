@@ -200,7 +200,7 @@ public class GameState {
 
 	private boolean keyRIGHT, keyLEFT, keySpace;
 	public boolean gameOver, gamePass;
-	private final int GRAVITY = 1; // Gravity pulling the girl down every frame
+	private final int GRAVITY = 3; // Gravity pulling the girl down every frame
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
 	private int verticalVelocity = 0; // The current vertical velocity of the girl
 
@@ -214,7 +214,7 @@ public class GameState {
 		keySpace = false;
 
 		keyHandler = new KeyHandler();
-		girl = new Girl(0, 60);
+		girl = new Girl(0, 400);
 	}
 
 	public Girl getGirl(){
@@ -225,8 +225,6 @@ public class GameState {
 	 * The method which updates the game state.
 	 */
 	public void update() {
-		if(keySpace)
-			girl.jump();
 		if(keySpace && verticalVelocity == 0) {
 			girl.jump(); // Start the jump
 		}
@@ -240,6 +238,7 @@ public class GameState {
 
 		// Apply gravity
 		verticalVelocity += GRAVITY;
+
 		// Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
 		if(girl.getY() >= 390) {
 			girl.setY(390);
@@ -251,8 +250,8 @@ public class GameState {
 		if (keyRIGHT)
 			girl.setX(girl.getX() + 8);
 		// Ensure the girl's position remains within bounds
-		girl.setX(Math.max(girl.getX(), 0));
-		girl.setX(Math.min(girl.getX(), GameFrame.GAME_WIDTH));
+		girl.setX(Math.max(girl.getX(), 20));
+		girl.setX(Math.min(girl.getX(), GameFrame.GAME_WIDTH - 100));
 
 		girl.toggleImage();
 	}

@@ -22,8 +22,8 @@ public class Girl {
     private final int imgWidth = 130;
     private final int imgHeight = 130;
     private boolean jumping = false;
-    private final int jumpHeight = 200;   // Adjust this to change the height of the jump
-    private final int jumpSpeed = 10;    // Adjust this to change the speed of the jump
+    private final int jumpHeight = 170;   // Adjust this to change the height of the jump
+    private final int jumpSpeed = 20;    // Adjust this to change the speed of the jump
     private int jumpCounter = 0;
     private final int GRAVITY = 1; // Gravity pulling the girl down every frame
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
@@ -67,7 +67,7 @@ public class Girl {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.currentImage = girlMove2;
+        this.currentImage = girlMove1;
         this.gun = new Gun();
         this.x = StartX;
         this.y = StartY;
@@ -79,26 +79,16 @@ public class Girl {
     }
 
     public void jump() {
-        if(!jumping) {   // Check if she's not already jumping
+        if (!jumping) {   // Check if she's not already jumping
             jumping = true;
             jumpCounter = 0; // Reset jumpCounter when starting a new jump
+            currentImage = girlMove1;
         }
-        // Apply vertical velocity to the girl's Y position
-//		y = y + verticalVelocity;
-//		y = Math.max(y, 0);
-//		y = Math.min(y, 400);
-
-//		// Apply gravity
-//		verticalVelocity += GRAVITY;
-//		// Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
-//		if(y >= 800) {
-//			y = 800;
-//			verticalVelocity = 0; // Reset vertical velocity when on the ground
-//		}
     }
 
     public void updatePosition() {
         if(jumping) {
+            currentImage = girlMove1;
             // Move the girl up quickly
             this.y -= jumpSpeed;
 
@@ -112,13 +102,15 @@ public class Girl {
     }
 
     public void toggleImage() {
-        animationCounter++;
-        // Change this value to control the speed of the animation
-        if (animationCounter % switchInterval == 0) {
-            if (currentImage == girlMove1) {
-                currentImage = girlMove2;
-            } else {
-                currentImage = girlMove1;
+        if(!jumping) {
+            animationCounter++;
+            // Change this value to control the speed of the animation
+            if (animationCounter % switchInterval == 0) {
+                if (currentImage == girlMove1) {
+                    currentImage = girlMove2;
+                } else {
+                    currentImage = girlMove1;
+                }
             }
         }
     }
