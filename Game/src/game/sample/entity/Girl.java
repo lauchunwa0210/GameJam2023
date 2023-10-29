@@ -28,6 +28,14 @@ public class Girl {
         this.y = y;
     }
 
+    public void setHealth(int health){
+        this.health = health;
+    }
+
+    public int getHealth(){
+        return this.health;
+    }
+
     private int imgHeight = 200;
 
 
