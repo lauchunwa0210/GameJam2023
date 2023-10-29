@@ -24,7 +24,7 @@ public class GameFrame extends BaseFrame {
 	GameStart gameStarter = new GameStart();
 	public GameFrame(String title) {
 		super(title);
-		playBackgroundMusic();  // Start the background music
+		  // Start the background music
 	}
 
 
@@ -156,6 +156,7 @@ public class GameFrame extends BaseFrame {
 	private void startGame() {
 		musicPlayer.stopMusic();
 		// Remove the menu panel from the frame
+		playBackgroundMusic();
 		gameStarter.gameStart(GAME_WIDTH, GAME_HEIGHT, this);
 	}
 }
