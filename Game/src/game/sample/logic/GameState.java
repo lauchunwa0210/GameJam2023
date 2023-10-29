@@ -189,7 +189,7 @@ public class GameState {
                     break;
                 case KeyEvent.VK_ENTER: // "Entre" key for firing a bullet
                     Bullet bullet = girl.shoot();
-                    bullets.add(bullet);
+                    if (bullet != null) bullets.add(bullet);
                     break;
             }
         }
