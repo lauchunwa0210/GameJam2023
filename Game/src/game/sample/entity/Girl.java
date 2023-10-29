@@ -43,6 +43,14 @@ public class Girl {
     public int getY() {
         return y;
     }
+    public void setHealth(int health){
+        this.health = health;
+    }
+
+    public int getHealth(){
+        return this.health;
+    }
+
 
     public Girl(int StartX, int StartY){
         try {
