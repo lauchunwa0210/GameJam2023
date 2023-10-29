@@ -9,5 +9,6 @@ nbproject/
 
 build.xml
 manifest.mf
+/out
 
 *.log
