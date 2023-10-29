@@ -10,10 +10,10 @@ public class Slime {
     private Image slimeImage;
     private int health;
     private int x; // position
-    private final int y = 465;
+    private final int y = 445;
     private int speed;
     private final int imgWidth = 130;
-    private final int imgHeight = 50;
+    private final int imgHeight = 70;
 
 
     public void setX(int x) {
