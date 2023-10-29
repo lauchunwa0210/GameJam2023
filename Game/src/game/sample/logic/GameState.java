@@ -292,6 +292,7 @@ public class GameState {
 		if (slimes != null && slimes.size() > 0){
 			for (int i = 0; i < slimes.size(); i++) {
 				Slime slime = slimes.get(i);
+				slime.attack(girl);
 				slime.move();
 
 				// 检查怪物是否出屏幕，并从列表中移除
