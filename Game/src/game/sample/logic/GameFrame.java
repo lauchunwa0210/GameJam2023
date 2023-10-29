@@ -19,7 +19,7 @@ import java.io.IOException;
 
 
 public class GameFrame extends BaseFrame {
-  
+
   StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
 	GameStart gameStarter = new GameStart();
 	public GameFrame(String title) {
@@ -41,7 +41,6 @@ public class GameFrame extends BaseFrame {
 	@Override
 	protected void doRendering(Graphics2D g2d, GameState state) {
 		super.doRendering(g2d, state);
-
 		g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
 		// ... Specific GameFrame rendering logic (if any) ...
 	}
