@@ -10,5 +10,6 @@ out/
 
 build.xml
 manifest.mf
+/out
 
 *.log
