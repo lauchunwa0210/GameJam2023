@@ -18,7 +18,7 @@ import java.awt.event.MouseMotionListener;
 public class GameState {
 	
 	public int locX, locY, diam;
-	public boolean gameOver;
+	public boolean gameOver, gamePass;
 	
 	private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
 	private boolean mousePress;
