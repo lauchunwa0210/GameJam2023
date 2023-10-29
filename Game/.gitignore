@@ -6,6 +6,7 @@
 /nbproject/private/
 /.nb-gradle/
 nbproject/
+out/
 
 build.xml
 manifest.mf
