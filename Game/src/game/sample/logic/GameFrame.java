@@ -1,6 +1,7 @@
 package game.sample.logic;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,7 @@ public class GameFrame extends BaseFrame {
 
 	public GameFrame(String title) {
 		super(title);
+		playBackgroundMusic();  // Start the background music
 	}
 
 	@Override
@@ -23,7 +25,7 @@ public class GameFrame extends BaseFrame {
 	@Override
 	protected void doRendering(Graphics2D g2d, GameState state) {
 		super.doRendering(g2d, state);
-		// Specific GameFrame rendering logic...
+		// ... Specific GameFrame rendering logic (if any) ...
 	}
 
 	public void transitionToBossFrame() {
@@ -33,4 +35,17 @@ public class GameFrame extends BaseFrame {
 		bossFrame.initBufferStrategy();
 		bossFrame.loadBackgroundImage();
 	}
+
+	public void playBackgroundMusic() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Game/resource/music/Black Ritual .wav").getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music continuously
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
