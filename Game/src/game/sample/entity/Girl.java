@@ -49,9 +49,6 @@ public class Girl {
         return this.health;
     }
 
-    public Gun getGun() {
-        return gun;
-    }
 
     public Girl(int StartX, int StartY){
         try {
@@ -103,7 +100,7 @@ public class Girl {
     }
 
     public void toggleImage() {
-        if(!jumping) {
+        if (!jumping) {
             animationCounter++;
             // Change this value to control the speed of the animation
             if (animationCounter % switchInterval == 0) {
@@ -116,7 +113,11 @@ public class Girl {
         }
     }
 
-    public void shoot(){
-        gun.fire();
+    public Bullet shoot() {
+        int bulletSpeed = 10; // Set desired bullet speed
+        int bulletDirection = 0; // Set desired bullet direction (0 for right)
+        Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
+        Point bulletStartPosition = new Point(this.x + this.imgWidth, this.y + this.imgHeight / 2 + 10); // Adjust as per the desired start position of the bullet
+        return gun.fire(bulletStartPosition, bulletSpeed, bulletDirection, bulletImage);
     }
 }

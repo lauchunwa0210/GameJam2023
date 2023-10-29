@@ -1,7 +1,7 @@
 package game.sample.logic;
 
 public class GameStart {
-    public void gameStart(int GAME_WIDTH, int GAME_HEIGHT, BaseFrameOld frame){
+    public void gameStart(int GAME_WIDTH, int GAME_HEIGHT, PipeFrame frame){
         frame.getContentPane().removeAll();
         frame.setResizable(false);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);

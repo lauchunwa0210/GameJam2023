@@ -1,5 +1,7 @@
 package game.sample.logic;
 
+import game.sample.entity.Bullet;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -140,7 +142,13 @@ public class PipeFrame extends JFrame {
         }
         // load  girl
         g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
-
+        for (int i = 0; i < state.getSlimes().size(); i++) {
+            g2d.drawImage(state.getSlimes().get(i).getSlimeImage(), state.getSlimes().get(i).getX(),state.getSlimes().get(i).getY(),null);
+            state.getSlimes().get(i).render(g2d);
+        }
+        for (Bullet bullet : state.getBullets()) {
+            bullet.render(g2d);
+        }
         // Draw GAME OVER
         if (state.gameOver) {
             String str = "GAME OVER";

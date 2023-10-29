@@ -1,6 +1,6 @@
 package game.sample.entity;
 
-import game.sample.logic.GameFrameOld;
+import game.sample.logic.BossFrame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -49,7 +49,7 @@ public class Boss {
     }
     private void loadBossImage() {
         try {
-            bossImage = ImageIO.read(new File("/Users/frederick_zou/Desktop/GameJam2023/Game/resource/image/monster-removebg-preview.png"));
+            bossImage = ImageIO.read(new File("Game/resource/image/monster-removebg-preview.png"));
         } catch (IOException e) {
             e.printStackTrace();
             bossImage = null;
@@ -113,10 +113,10 @@ public class Boss {
 //        y += random.nextInt(21) - 10;
 
         // Boundary checking (adjust as needed)
-        if (x < 0 || x > GameFrameOld.GAME_WIDTH - width) {
+        if (x < 0 || x > BossFrame.GAME_WIDTH - width) {
             speedX = -speedX; // Reverse direction when hitting the sides
         }
-        if (y < 0 || y > GameFrameOld.GAME_HEIGHT - height) {
+        if (y < 0 || y > BossFrame.GAME_HEIGHT - height) {
             speedY = -speedY; // Reverse direction when hitting top/bottom
         }
 
@@ -141,9 +141,9 @@ public class Boss {
 
             // Check if the missile is off-screen
             if (missile.getX() + missile.getWidth() < 0 ||
-                    missile.getX() > GameFrameOld.GAME_WIDTH ||
+                    missile.getX() > BossFrame.GAME_WIDTH ||
                     missile.getY() + missile.getHeight() < 0 ||
-                    missile.getY() > GameFrameOld.GAME_HEIGHT) {
+                    missile.getY() > BossFrame.GAME_HEIGHT) {
                 missileIterator.remove();
             }
         }
