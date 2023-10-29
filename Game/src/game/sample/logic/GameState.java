@@ -284,7 +284,7 @@ public class GameState {
 		girl.setX(Math.min(girl.getX(), GameFrame.GAME_WIDTH));
 
 		if (spawning){
-			slime =  new Slime(1000, random.nextInt(5) + 6);
+			slime =  new Slime(1000, random.nextInt(4) + 8);
 			slimes.add(slime);
 			spawning = false;
 		}
