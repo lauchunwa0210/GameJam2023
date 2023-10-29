@@ -103,15 +103,14 @@ public class GameFrame extends JFrame {
 		loadBackgroundImage();
 		if (backgroundImage != null) {
 			g2d.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
-			System.out.println("1");
 		} else {
-			System.out.println("2");
 			g2d.setColor(Color.GRAY);
 			g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 		}
-		// Draw ball
-		g2d.setColor(Color.BLACK);
-		g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
+
+		// Draw girl
+		g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
+
 		// Print FPS info
 		long currentRender = System.currentTimeMillis();
 		if (lastRender > 0) {
