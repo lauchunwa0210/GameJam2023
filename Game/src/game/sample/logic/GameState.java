@@ -289,7 +289,7 @@ public class GameState {
 			spawning = false;
 		}
 
-		if (slimes != null && slimes.size() > 0){
+		if (slimes != null && !slimes.isEmpty()){
 			for (int i = 0; i < slimes.size(); i++) {
 				Slime slime = slimes.get(i);
 				slime.attack(girl);

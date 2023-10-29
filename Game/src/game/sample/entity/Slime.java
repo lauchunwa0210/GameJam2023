@@ -59,7 +59,7 @@ public class Slime {
 
         this.x = StartX;
         this.speed = speed;
-        this.health = 20;
+        this.health = 30;
     }
 
     public void move() {
@@ -70,6 +70,19 @@ public class Slime {
         if (this.x >= girl.getX() - 130 && this.x >= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
             girl.setHealth(girl.getHealth() - 5);
         }
+    }
+
+    public void render(Graphics2D g2d) {
+
+        // Draw the health bar
+        g2d.setColor(Color.RED);
+        int healthBarWidth = (int) (((double)this.health / 30) * 100);
+        g2d.fillRect(x+15, y - 20, healthBarWidth, 10);
+
+        // Draw the health bar border
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(x+15, y - 20, 100, 10);
+
     }
 
 }
