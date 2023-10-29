@@ -13,6 +13,11 @@ enum AttackPattern{
 
 public class Gun {
     private final Image gun;
+    private int damage = 10;
+    private int speed = 5;
+
+    private int gunX;
+    private int gunY;
 
     {
         try {
@@ -22,10 +27,15 @@ public class Gun {
         }
     }
 
-    int damage = 10;
-    int speed = 5;
+    private int x, y;
 
-    public Gun() {
+    public Gun(){
+
+    }
+
+    public Gun(int x, int y) {
+        this.gunX = x;
+        this.gunY = y;
     }
 
     public int getDamage() {
