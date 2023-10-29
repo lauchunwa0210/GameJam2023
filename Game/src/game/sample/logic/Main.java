@@ -1,5 +1,5 @@
 /*** In The Name of Allah ***/
-package game.template.doublebuffering;
+package game.sample.logic;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -10,10 +10,7 @@ import javax.swing.JFrame;
  * @author Seyed Mohammad Ghaffarian
  */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
+	
     public static void main(String[] args) {
 		// Initialize the global thread-pool
 		ThreadPool.init();
@@ -24,22 +21,17 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JFrame frame = new JFrame("Game Title");
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				frame.setResizable(false);
-				// Create game canvas
-				GameCanvas canvas = new GameCanvas();
-				frame.setContentPane(canvas);
-				frame.pack();
+				GameFrame frame = new GameFrame("Simple Ball !");
 				frame.setLocationRelativeTo(null); // put frame at center of screen
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
+				frame.initBufferStrategy();
 				// Create and execute the game-loop
-				GameLoop game = new GameLoop(canvas);
+				GameLoop game = new GameLoop(frame);
 				game.init();
 				ThreadPool.execute(game);
 				// and the game starts ...
 			}
 		});
     }
-
 }

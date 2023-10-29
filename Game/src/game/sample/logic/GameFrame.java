@@ -1,12 +1,16 @@
 /*** In The Name of Allah ***/
-package game.sample.ball;
+package game.sample.logic;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
@@ -28,6 +32,8 @@ public class GameFrame extends JFrame {
 	private ArrayList<Float> fpsHistory;
 
 	private BufferStrategy bufferStrategy;
+
+	private BufferedImage backgroundImage;
 	
 	public GameFrame(String title) {
 		super(title);
@@ -46,6 +52,15 @@ public class GameFrame extends JFrame {
 		// Triple-buffering
 		createBufferStrategy(3);
 		bufferStrategy = getBufferStrategy();
+	}
+
+	// This method could be in your initialization or constructor
+	public void loadBackgroundImage() {
+		try {
+			backgroundImage = ImageIO.read(new File("Game/resource/image/pipe-background.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -85,8 +100,15 @@ public class GameFrame extends JFrame {
 	 */
 	private void doRendering(Graphics2D g2d, GameState state) {
 		// Draw background
-		g2d.setColor(Color.GRAY);
-		g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		loadBackgroundImage();
+		if (backgroundImage != null) {
+			g2d.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+			System.out.println("1");
+		} else {
+			System.out.println("2");
+			g2d.setColor(Color.GRAY);
+			g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		}
 		// Draw ball
 		g2d.setColor(Color.BLACK);
 		g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
@@ -111,12 +133,7 @@ public class GameFrame extends JFrame {
 			g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, strHeight);
 		}
 		lastRender = currentRender;
-		// Print user guide
-		String userGuide
-				= "Use the MOUSE or ARROW KEYS to move the BALL. "
-				+ "Press ESCAPE to end the game.";
-		g2d.setFont(g2d.getFont().deriveFont(18.0f));
-		g2d.drawString(userGuide, 10, GAME_HEIGHT - 10);
+
 		// Draw GAME OVER
 		if (state.gameOver) {
 			String str = "GAME OVER";

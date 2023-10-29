@@ -1,5 +1,5 @@
 /*** In The Name of Allah ***/
-package game.sample.ball;
+package game.sample.logic;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -90,16 +90,16 @@ public class GameState {
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode())
 			{
-				case KeyEvent.VK_UP:
+				case KeyEvent.VK_W:
 					keyUP = true;
 					break;
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_S:
 					keyDOWN = true;
 					break;
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_A:
 					keyLEFT = true;
 					break;
-				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_D:
 					keyRIGHT = true;
 					break;
 				case KeyEvent.VK_ESCAPE:
@@ -112,16 +112,16 @@ public class GameState {
 		public void keyReleased(KeyEvent e) {
 			switch (e.getKeyCode())
 			{
-				case KeyEvent.VK_UP:
+				case KeyEvent.VK_W:
 					keyUP = false;
 					break;
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_S:
 					keyDOWN = false;
 					break;
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_A:
 					keyLEFT = false;
 					break;
-				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_D:
 					keyRIGHT = false;
 					break;
 			}
