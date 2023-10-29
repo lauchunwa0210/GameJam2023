@@ -1,5 +1,7 @@
 package game.sample.logic;
 
+import game.sample.entity.Boss;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -100,8 +102,6 @@ public class BossFrame extends JFrame {
 
     private void doRendering(Graphics2D g2d, GameState state) {
         loadBackgroundImage();
-        // load  girl
-        g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
 
         if (backgroundImage != null) {
             g2d.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
@@ -109,6 +109,15 @@ public class BossFrame extends JFrame {
             g2d.setColor(Color.GRAY);
             g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         }
+
+        // load boss
+        Boss boss = state.getBoss();
+        if (boss.isAlive()) {
+            boss.render(g2d);
+            boss.update();
+            boss.attack();
+        }
+
         // Draw GAME OVER
         if (state.gameOver) {
             String str = "GAME OVER";

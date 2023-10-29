@@ -184,6 +184,7 @@
 /*** In The Name of Allah ***/
 package game.sample.logic;
 
+import game.sample.entity.Boss;
 import game.sample.entity.Girl;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -196,6 +197,7 @@ import java.awt.event.KeyListener;
 public class GameState {
 
 	private Girl girl;
+	private Boss boss;
 	private KeyHandler keyHandler;
 
 	private boolean keyRIGHT, keyLEFT, keySpace;
@@ -215,11 +217,13 @@ public class GameState {
 
 		keyHandler = new KeyHandler();
 		girl = new Girl(0, 400);
+		boss = new Boss(980, 300, 300, 250, 1000);
 	}
 
 	public Girl getGirl(){
 		return this.girl;
 	}
+	public Boss getBoss() {return this.boss;}
 
 	/**
 	 * The method which updates the game state.
@@ -234,7 +238,7 @@ public class GameState {
 		// Apply vertical velocity to the girl's Y position
 		girl.setY(girl.getY() + verticalVelocity);
 		girl.setY(Math.max(girl.getY(), 0));
-		girl.setY(Math.min(girl.getY(), GameFrameOld.GAME_HEIGHT));
+		girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT));
 
 		// Apply gravity
 		verticalVelocity += GRAVITY;
@@ -251,7 +255,7 @@ public class GameState {
 			girl.setX(girl.getX() + 8);
 		// Ensure the girl's position remains within bounds
 		girl.setX(Math.max(girl.getX(), 20));
-		girl.setX(Math.min(girl.getX(), GameFrameOld.GAME_WIDTH - 100));
+		girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
 		girl.toggleImage();
 	}
