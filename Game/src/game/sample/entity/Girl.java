@@ -10,24 +10,37 @@ public class Girl {
     private int health;
     private int x, y; // position
     private boolean canMoveHorizontal; // true when in boss fight
-    private Gun gun;
+    private final Gun gun;
     private Image girlMove1;
     private Image girlMove2;
     private Image girlStill;
     private Image currentImage;
-    private boolean isMoving;
+    private final int switchInterval = 4;
     private int animationCounter = 0;
-    private int switchInterval = 10; // Change this value to control the speed of the animation
-    private int imgWidth = 200;
+    private final int imgWidth = 130;
+    private final int imgHeight = 130;
+    private boolean jumping = false;
+    private final int jumpHeight = 170;   // Adjust this to change the height of the jump
+    private final int jumpSpeed = 20;    // Adjust this to change the speed of the jump
+    private int jumpCounter = 0;
+    private final int GRAVITY = 1; // Gravity pulling the girl down every frame
+	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
+	private int verticalVelocity = 0; // The current vertical velocity of the girl
+
 
     public void setX(int x) {
         this.x = x;
     }
-
     public void setY(int y) {
         this.y = y;
+        this.currentImage = girlMove2;
     }
-
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
     public void setHealth(int health){
         this.health = health;
     }
@@ -36,8 +49,9 @@ public class Girl {
         return this.health;
     }
 
-    private int imgHeight = 200;
-
+    public Gun getGun() {
+        return gun;
+    }
 
     public Girl(int StartX, int StartY){
         try {
@@ -54,69 +68,54 @@ public class Girl {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.isMoving = true;
-        this.currentImage = girlMove2;
+        this.currentImage = girlMove1;
         this.gun = new Gun();
         this.x = StartX;
         this.y = StartY;
         this.health = 100;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public Image getCurrentImage(){
         return this.currentImage;
     }
 
-    public void move() {
-        isMoving = true;
+    public void jump() {
+        if (!jumping) {   // Check if she's not already jumping
+            jumping = true;
+            jumpCounter = 0; // Reset jumpCounter when starting a new jump
+            currentImage = girlMove1;
+        }
+    }
 
-        // ... (Your move logic here)
+    public void updatePosition() {
+        if(jumping) {
+            currentImage = girlMove1;
+            // Move the girl up quickly
+            this.y -= jumpSpeed;
 
-        // Increment animation counter
-        animationCounter++;
+            jumpCounter += jumpSpeed;
 
-        // If counter reaches switchInterval, switch image
-        if (animationCounter % switchInterval == 0) {
-            if (currentImage == girlMove1) {
-                currentImage = girlMove2;
-            } else {
-                currentImage = girlMove1;
+            // Stop jumping when the desired height is reached
+            if(jumpCounter >= jumpHeight) {
+                jumping = false;
             }
         }
     }
 
-    public void stopMoving() {
-        isMoving = false;
-        animationCounter = 0;
-        currentImage = girlMove1; // Reset to default image when not moving
-    }
-
-    private void MoveUp(){
-        y -= 5;
-    }
-
-    private void MoveDown(){
-        y+= 5;
-    }
-
-    public void moveRight() {
-        if (canMoveHorizontal) {
-            x += 5;
+    public void toggleImage() {
+        if(!jumping) {
+            animationCounter++;
+            // Change this value to control the speed of the animation
+            if (animationCounter % switchInterval == 0) {
+                if (currentImage == girlMove1) {
+                    currentImage = girlMove2;
+                } else {
+                    currentImage = girlMove1;
+                }
+            }
         }
     }
 
-    public void moveLeft() {
-        if (canMoveHorizontal) {
-            x -= 5;
-        }
-    }
     public void shoot(){
         gun.fire();
     }
