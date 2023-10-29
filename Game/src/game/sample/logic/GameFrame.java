@@ -31,6 +31,7 @@ public class GameFrame extends BaseFrame {
 	@Override
 	protected void doRendering(Graphics2D g2d, GameState state) {
 		super.doRendering(g2d, state);
+		g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
 		// ... Specific GameFrame rendering logic (if any) ...
 	}
 
