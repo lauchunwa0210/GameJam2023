@@ -1,7 +1,6 @@
 package game.sample.entity;
 
-import game.sample.logic.GameFrame;
-import game.sample.logic.GameState;
+import game.sample.logic.GameFrameOld;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -114,10 +113,10 @@ public class Boss {
 //        y += random.nextInt(21) - 10;
 
         // Boundary checking (adjust as needed)
-        if (x < 0 || x > GameFrame.GAME_WIDTH - width) {
+        if (x < 0 || x > GameFrameOld.GAME_WIDTH - width) {
             speedX = -speedX; // Reverse direction when hitting the sides
         }
-        if (y < 0 || y > GameFrame.GAME_HEIGHT - height) {
+        if (y < 0 || y > GameFrameOld.GAME_HEIGHT - height) {
             speedY = -speedY; // Reverse direction when hitting top/bottom
         }
 
@@ -142,9 +141,9 @@ public class Boss {
 
             // Check if the missile is off-screen
             if (missile.getX() + missile.getWidth() < 0 ||
-                    missile.getX() > GameFrame.GAME_WIDTH ||
+                    missile.getX() > GameFrameOld.GAME_WIDTH ||
                     missile.getY() + missile.getHeight() < 0 ||
-                    missile.getY() > GameFrame.GAME_HEIGHT) {
+                    missile.getY() > GameFrameOld.GAME_HEIGHT) {
                 missileIterator.remove();
             }
         }

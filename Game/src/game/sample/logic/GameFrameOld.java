@@ -3,26 +3,19 @@ package game.sample.logic;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import java.awt.event.*;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
 
-public class GameFrame extends BaseFrame {
+public class GameFrameOld extends BaseFrameOld {
 
-  StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
+	StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
 	GameStart gameStarter = new GameStart();
-	public GameFrame(String title) {
+	public GameFrameOld(String title) {
 		super(title);
 		playBackgroundMusic();  // Start the background music
 	}
@@ -46,11 +39,10 @@ public class GameFrame extends BaseFrame {
 	}
 
 	public void transitionToBossFrame() {
-		this.dispose();
-		BossFrame bossFrame = new BossFrame("Boss Level");
-		bossFrame.setVisible(true);
-		bossFrame.initBufferStrategy();
-		bossFrame.loadBackgroundImage();
+//		this.dispose();
+		BaseFrameOld bossFrame = new BossFrameOld("Boss Level");
+//		bossFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gameStarter.gameStart(GAME_WIDTH, GAME_HEIGHT,bossFrame);
 	}
 
 	public void playBackgroundMusic() {

@@ -1,7 +1,5 @@
 package game.sample.entity;
 
-import game.sample.logic.GameFrame;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -51,6 +49,9 @@ public class Girl {
         return this.health;
     }
 
+    public Gun getGun() {
+        return gun;
+    }
 
     public Girl(int StartX, int StartY){
         try {

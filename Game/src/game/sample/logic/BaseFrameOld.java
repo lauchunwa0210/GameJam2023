@@ -6,7 +6,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class BaseFrame extends JFrame {
+public abstract class BaseFrameOld extends JFrame {
 
     public static final int GAME_HEIGHT = 720;
     public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;
@@ -17,7 +17,7 @@ public abstract class BaseFrame extends JFrame {
     protected BufferStrategy bufferStrategy;
     protected BufferedImage backgroundImage;
 
-    public BaseFrame(String title) {
+    public BaseFrameOld(String title) {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -26,8 +26,14 @@ public abstract class BaseFrame extends JFrame {
     }
 
     public void initBufferStrategy() {
-        createBufferStrategy(3);
+        createBufferStrategy(2);
         bufferStrategy = getBufferStrategy();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        initBufferStrategy();
     }
 
     public abstract void loadBackgroundImage();

@@ -234,7 +234,7 @@ public class GameState {
 		// Apply vertical velocity to the girl's Y position
 		girl.setY(girl.getY() + verticalVelocity);
 		girl.setY(Math.max(girl.getY(), 0));
-		girl.setY(Math.min(girl.getY(), GameFrame.GAME_HEIGHT));
+		girl.setY(Math.min(girl.getY(), GameFrameOld.GAME_HEIGHT));
 
 		// Apply gravity
 		verticalVelocity += GRAVITY;
@@ -251,7 +251,7 @@ public class GameState {
 			girl.setX(girl.getX() + 8);
 		// Ensure the girl's position remains within bounds
 		girl.setX(Math.max(girl.getX(), 20));
-		girl.setX(Math.min(girl.getX(), GameFrame.GAME_WIDTH - 100));
+		girl.setX(Math.min(girl.getX(), GameFrameOld.GAME_WIDTH - 100));
 
 		girl.toggleImage();
 	}
