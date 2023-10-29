@@ -1,16 +1,18 @@
 package game.sample.logic;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
 public class GameFrame extends BaseFrame {
-
 	public GameFrame(String title) {
 		super(title);
 	}
-
+	GameStart gameStarter = new GameStart();
 	@Override
 	public void loadBackgroundImage() {
 		try {
@@ -33,4 +35,87 @@ public class GameFrame extends BaseFrame {
 		bossFrame.initBufferStrategy();
 		bossFrame.loadBackgroundImage();
 	}
+	public void showMenu() {
+		// Create a panel for the menu
+		JPanel menuPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		// Title label
+		JLabel titleLabel = new JLabel("Simple Ball Game");
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2; // Span across two columns for centering
+		c.weighty = 0.3; // Increase weight to move title down slightly
+		c.insets = new Insets(100, 10, 40, 10); // Increase top inset to move title down
+		c.anchor = GridBagConstraints.NORTH; // Align to the top
+		menuPanel.add(titleLabel, c);
+
+		c.weighty = 0.06; // No extra vertical space
+		c.insets = new Insets(5, 10, 5, 10); // Reduced vertical insets
+		Dimension buttonSize = new Dimension(500, 50); // Set the width and height of the buttons
+		Font buttonFont = new Font("Arial", Font.PLAIN, 20); // Set the font size of the buttons
+
+		// "Play" button
+		JButton playButton = new JButton("Play");
+		playButton.setPreferredSize(buttonSize);
+		playButton.setFont(buttonFont);
+		c.gridy = 1; // Positioning the Play button
+
+		playButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Start the game when "Play" is clicked
+				startGame();
+			}
+		});
+
+		// Add the button to the panel
+		menuPanel.add(playButton, c);
+
+		JButton achievementsButton = new JButton("Achievements");
+		achievementsButton.setPreferredSize(buttonSize);
+		achievementsButton.setFont(buttonFont);
+		c.gridy = 2; // Adjust the gridy value to position the button
+		achievementsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: Define what happens when Achievements is clicked.
+				// You might want to display a new window or panel with achievement information.
+			}
+		});
+		menuPanel.add(achievementsButton, c);
+
+		JButton exitButton = new JButton("Exit");
+		exitButton.setPreferredSize(buttonSize);
+		exitButton.setFont(buttonFont);
+		c.gridy = 3;
+		exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Exit the game when "Exit" is clicked
+				System.exit(0);
+			}
+		});
+		menuPanel.add(exitButton, c);
+
+
+		menuPanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+		c.weighty = 0.5; // Larger weight to consume more vertical space
+		c.gridy = 3;   // Position at the bottom
+		menuPanel.add(new JPanel(), c); // Adding an empty, invisible panel
+
+		// Add the menu panel to the frame
+		this.setContentPane(menuPanel);
+
+		// Set the size of the window and other properties
+		this.pack();
+		this.setLocationRelativeTo(null); // Center on screen
+		this.setVisible(true);
+	}
+	private void startGame() {
+		// Remove the menu panel from the frame
+		gameStarter.gameStart(GAME_WIDTH, GAME_HEIGHT, this);
+	}
+
 }
