@@ -80,55 +80,55 @@ public class GameState {
 	 * The method which updates the game state.
 	 */
 	public void update() {
-		if(keySpace && verticalVelocity == 0) {
-			girl.jump(); // Start the jump
-		}
+        if (keySpace && verticalVelocity == 0) {
+            girl.jump(); // Start the jump
+        }
 
         girl.updatePosition();
 
-		// Apply vertical velocity to the girl's Y position
-		girl.setY(girl.getY() + verticalVelocity);
-		girl.setY(Math.max(girl.getY(), 0));
-		girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT));
+        // Apply vertical velocity to the girl's Y position
+        girl.setY(girl.getY() + verticalVelocity);
+        girl.setY(Math.max(girl.getY(), 0));
+        girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT));
 
-		// Apply gravity
-		verticalVelocity += GRAVITY;
+        // Apply gravity
+        verticalVelocity += GRAVITY;
 
-		// Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
-		if(girl.getY() >= 390) {
-			girl.setY(390);
-			verticalVelocity = 0; // Reset vertical velocity when on the ground
-		}
+        // Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
+        if (girl.getY() >= 390) {
+            girl.setY(390);
+            verticalVelocity = 0; // Reset vertical velocity when on the ground
+        }
 
-		if (keyLEFT)
-			girl.setX(girl.getX() - 8);
-		if (keyRIGHT)
-			girl.setX(girl.getX() + 8);
-		// Ensure the girl's position remains within bounds
-		girl.setX(Math.max(girl.getX(), 20));
-		girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
+        if (keyLEFT)
+            girl.setX(girl.getX() - 8);
+        if (keyRIGHT)
+            girl.setX(girl.getX() + 8);
+        // Ensure the girl's position remains within bounds
+        girl.setX(Math.max(girl.getX(), 20));
+        girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
-        if (spawning){
-            slime =  new Slime(1000, random.nextInt(4) + 8);
+        if (spawning) {
+            slime = new Slime(1000, random.nextInt(4) + 8);
             slimes.add(slime);
             spawning = false;
         }
 
-        if (slimes != null && !slimes.isEmpty()){
+        if (slimes != null && !slimes.isEmpty()) {
             for (int i = 0; i < slimes.size(); i++) {
                 Slime slime = slimes.get(i);
                 slime.attack(girl);
                 slime.move();
 
                 // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth()<=0) {
+                if (slime.getX() < 0 || slime.getHealth() <= 0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
                 }
             }
         }
 
-    }
+
 
         girl.toggleImage();
 
@@ -139,7 +139,7 @@ public class GameState {
 
         // Remove bullets that are off the screen
         bullets.removeIf(Bullet::isOffScreen);
-    }
+
 		if (spawning){
 			slime =  new Slime(1000, random.nextInt(4) + 8);
 			slimes.add(slime);
@@ -162,9 +162,11 @@ public class GameState {
 
 	}
 
+
     public KeyListener getKeyListener() {
         return keyHandler;
     }
+
 
     /**
      * The keyboard handler.
@@ -208,4 +210,6 @@ public class GameState {
         }
     }
 }
+
+
 
