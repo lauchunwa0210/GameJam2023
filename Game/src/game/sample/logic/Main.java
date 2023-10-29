@@ -22,15 +22,18 @@ public class Main {
 			@Override
 			public void run() {
 				GameFrame frame = new GameFrame("Simple Ball !");
-				frame.setLocationRelativeTo(null); // put frame at center of screen
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setVisible(true);
-				frame.initBufferStrategy();
-				// Create and execute the game-loop
-				GameLoop game = new GameLoop(frame);
-				game.init();
-				ThreadPool.execute(game);
-				// and the game starts ...
+				frame.showMenu();
+//				GameFrame frame = new GameFrame("Simple Ball !");
+//				frame.setLocationRelativeTo(null); // put frame at center of screen
+//				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				frame.setVisible(true);
+//				frame.initBufferStrategy();
+//				// Create and execute the game-loop
+//				GameLoop game = new GameLoop(frame);
+//				game.init();
+//				ThreadPool.execute(game);
+//				// and the game starts ...
 			}
 		});
     }
