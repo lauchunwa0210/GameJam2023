@@ -10,5 +10,5 @@ nbproject/
 build.xml
 manifest.mf
 /out
-
+/.idea
 *.log
