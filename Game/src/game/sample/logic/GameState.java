@@ -185,7 +185,6 @@
 package game.sample.logic;
 
 import game.sample.entity.Girl;
-import game.sample.entity.Gun;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -217,7 +216,6 @@ public class GameState {
 
 		keyHandler = new KeyHandler();
 		girl = new Girl(0, 60);
-		gun = new Gun(girl.getX(),girl.getY());
 	}
 
 	public Girl getGirl(){
