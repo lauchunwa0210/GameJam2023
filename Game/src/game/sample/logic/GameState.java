@@ -185,10 +185,15 @@
 package game.sample.logic;
 
 import game.sample.entity.Girl;
+import game.sample.entity.Slime;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -197,6 +202,7 @@ import java.awt.event.KeyListener;
 public class GameState {
 
 	private Girl girl;
+	private Slime slime;
 	private KeyHandler keyHandler;
 
 	private boolean keyRIGHT, keyLEFT, keySpace;
@@ -204,6 +210,12 @@ public class GameState {
 	private final int GRAVITY = 1; // Gravity pulling the girl down every frame
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
 	private int verticalVelocity = 0; // The current vertical velocity of the girl
+
+	private Timer timer = new Timer();
+	private Random random = new Random();
+	private boolean spawning = false;
+	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
+
 
 
 	public GameState() {
@@ -216,11 +228,27 @@ public class GameState {
 
 		keyHandler = new KeyHandler();
 		girl = new Girl(0, 60);
+
+		start();
 	}
 
 	public Girl getGirl(){
 		return this.girl;
 	}
+	public ArrayList<Slime> getSlimes() {
+		return this.slimes;
+	}
+
+	public void start() {
+		// 启动一个计时器任务，用于触发怪物生成
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				spawning = true;
+			}
+		}, 0, 3000); // 初始延迟为0毫秒，然后每隔spawnInterval毫秒触发一次
+	}
+
 
 	/**
 	 * The method which updates the game state.
@@ -254,6 +282,26 @@ public class GameState {
 		// Ensure the girl's position remains within bounds
 		girl.setX(Math.max(girl.getX(), 0));
 		girl.setX(Math.min(girl.getX(), GameFrame.GAME_WIDTH));
+
+		if (spawning){
+			slime =  new Slime(1000, random.nextInt(5) + 6);
+			slimes.add(slime);
+			spawning = false;
+		}
+
+		if (slimes != null && slimes.size() > 0){
+			for (int i = 0; i < slimes.size(); i++) {
+				Slime slime = slimes.get(i);
+				slime.move();
+
+				// 检查怪物是否出屏幕，并从列表中移除
+				if (slime.getX() < 0 || slime.getHealth()<=0) {
+					slimes.remove(i);
+					i--; // 需要减小索引以避免跳过元素
+				}
+			}
+		}
+
 	}
 
 	public KeyListener getKeyListener() {

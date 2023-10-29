@@ -43,7 +43,10 @@ public class GameFrame extends BaseFrame {
 		super.doRendering(g2d, state);
 
 		g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
-		// ... Specific GameFrame rendering logic (if any) ...
+		for (int i = 0; i < state.getSlimes().size(); i++) {
+			g2d.drawImage(state.getSlimes().get(i).getSlimeImage(), state.getSlimes().get(i).getX(),state.getSlimes().get(i).getY(),null);
+		}
+
 	}
 
 	public void transitionToBossFrame() {
@@ -80,7 +83,7 @@ public class GameFrame extends BaseFrame {
 		GridBagConstraints c = new GridBagConstraints();
 
 		// Title label
-		JLabel titleLabel = new JLabel("Simple Ball Game");
+		JLabel titleLabel = new JLabel("Toxic Tide");
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
 		c.gridx = 0;
 		c.gridy = 0;
