@@ -1,6 +1,8 @@
 /*** In The Name of Allah ***/
 package game.sample.logic;
 
+import game.sample.entity.Girl;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -24,7 +26,9 @@ public class GameState {
 	private boolean mousePress;
 	private int mouseX, mouseY;	
 	private KeyHandler keyHandler;
-	private MouseHandler mouseHandler;
+//	private MouseHandler mouseHandler;
+
+	private Girl girl;
 	
 	public GameState() {
 		locX = 100;
@@ -42,7 +46,13 @@ public class GameState {
 		mouseY = 0;
 		//
 		keyHandler = new KeyHandler();
-		mouseHandler = new MouseHandler();
+//		mouseHandler = new MouseHandler();
+
+		girl = new Girl(100, 100);
+	}
+
+	public Girl getGirl(){
+		return this.girl;
 	}
 	
 	/**
@@ -54,13 +64,13 @@ public class GameState {
 			locX = mouseX - diam / 2;
 		}
 		if (keyUP)
-			locY -= 8;
+			girl.setY(girl.getY() - 8);
 		if (keyDOWN)
-			locY += 8;
+			girl.setY(girl.getY() + 8);
 		if (keyLEFT)
-			locX -= 8;
+			girl.setX(girl.getX() - 8);
 		if (keyRIGHT)
-			locX += 8;
+			girl.setX(girl.getX() + 8);
 
 		locX = Math.max(locX, 0);
 		locX = Math.min(locX, GameFrame.GAME_WIDTH - diam);
@@ -72,12 +82,12 @@ public class GameState {
 	public KeyListener getKeyListener() {
 		return keyHandler;
 	}
-	public MouseListener getMouseListener() {
-		return mouseHandler;
-	}
-	public MouseMotionListener getMouseMotionListener() {
-		return mouseHandler;
-	}
+//	public MouseListener getMouseListener() {
+//		return mouseHandler;
+//	}
+//	public MouseMotionListener getMouseMotionListener() {
+//		return mouseHandler;
+//	}
 
 
 
@@ -132,25 +142,25 @@ public class GameState {
 	/**
 	 * The mouse handler.
 	 */
-	class MouseHandler extends MouseAdapter {
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			mouseX = e.getX();
-			mouseY = e.getY();
-			mousePress = true;
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			mousePress = false;
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			mouseX = e.getX();
-			mouseY = e.getY();
-		}
-	}
+//	class MouseHandler extends MouseAdapter {
+//
+//		@Override
+//		public void mousePressed(MouseEvent e) {
+//			mouseX = e.getX();
+//			mouseY = e.getY();
+//			mousePress = true;
+//		}
+//
+//		@Override
+//		public void mouseReleased(MouseEvent e) {
+//			mousePress = false;
+//		}
+//
+//		@Override
+//		public void mouseDragged(MouseEvent e) {
+//			mouseX = e.getX();
+//			mouseY = e.getY();
+//		}
+//	}
 }
 

@@ -3,6 +3,12 @@ package game.sample.logic;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
