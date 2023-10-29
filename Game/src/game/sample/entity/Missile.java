@@ -1,6 +1,6 @@
 package game.sample.entity;
 
-import game.sample.logic.GameFrame;
+import game.sample.logic.BossFrame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -8,18 +8,37 @@ import java.awt.Graphics2D;
 public class Missile {
     private int x, y;
     private int width, height;
-    private int speed;
+    private int speedX, speedY;
 
-    public Missile(int x, int y, int width, int height, int speed) {
+    public Missile(int x, int y, int width, int height, int speedX, int speedY) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = speed;
+        this.speedX = speedX;
+        this.speedY = speedY;
+
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void update() {
-        y += speed;
+        x += speedX;
+        y += speedY;
     }
 
     public void render(Graphics2D g2d) {
@@ -28,6 +47,6 @@ public class Missile {
     }
 
     public boolean isOffScreen() {
-        return y > GameFrame.GAME_HEIGHT;
+        return y > BossFrame.GAME_HEIGHT;
     }
 }

@@ -1,6 +1,8 @@
 /*** In The Name of Allah ***/
 package game.sample.logic;
 
+import javax.swing.*;
+
 /**
  * A very simple structure for the main game loop.
  * THIS IS NOT PERFECT, but works for most situations.
@@ -23,30 +25,42 @@ public class GameLoop implements Runnable {
 	 */
 	public static final int FPS = 30;
 	
-	private GameFrame canvas;
+	private PipeFrame pipeCanvas;
+	private BossFrame bossCanvas;
 	private GameState state;
+	boolean isPipe;
 
-	public GameLoop(GameFrame frame) {
-		canvas = frame;
+	public GameLoop(PipeFrame frame) {
+		pipeCanvas = frame;
+		isPipe = true;
 	}
-	
+	public GameLoop(BossFrame frame) throws InterruptedException {
+		isPipe = false;
+
+		bossCanvas = frame;
+		Thread.sleep(1000);
+	}
+
 	/**
 	 * This must be called before the game loop starts.
 	 */
 	public void init() {
 		state = new GameState();
-		canvas.addKeyListener(state.getKeyListener());
+		if (isPipe) pipeCanvas.addKeyListener(state.getKeyListener());
+		else bossCanvas.addKeyListener(state.getKeyListener());
 	}
 
 	@Override
 	public void run() {
 		boolean gameOver = false;
-		while (!gameOver) {
+		while (!gameOver && isPipe) {
 			try {
 				long start = System.currentTimeMillis();
 				//
 				state.update();
-				canvas.render(state);
+				if (pipeCanvas.isVisible()) {
+					pipeCanvas.render(state);
+				}
 				gameOver = state.gameOver;
 				//
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
@@ -55,6 +69,28 @@ public class GameLoop implements Runnable {
 			} catch (InterruptedException ex) {
 			}
 		}
-		canvas.render(state);
+			while (!gameOver) {
+				try {
+					long start = System.currentTimeMillis();
+					//
+					state.update();
+
+					if (bossCanvas.isVisible()) {
+						bossCanvas.render(state);
+					}
+					gameOver = state.gameOver;
+					//
+					long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
+					if (delay > 0)
+						Thread.sleep(delay);
+				}catch (InterruptedException ex) {
+				}
+
+			try {
+				bossCanvas.render(state);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }
