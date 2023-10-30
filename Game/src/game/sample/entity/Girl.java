@@ -114,10 +114,7 @@ public class Girl {
     }
 
     public Bullet shoot() {
-        int bulletSpeed = 10; // Set desired bullet speed
-        int bulletDirection = 0; // Set desired bullet direction (0 for right)
-        Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
         Point bulletStartPosition = new Point(this.x + this.imgWidth, this.y + this.imgHeight / 2 + 10); // Adjust as per the desired start position of the bullet
-        return gun.fire(bulletStartPosition, bulletSpeed, bulletDirection, bulletImage);
+        return gun.fire(bulletStartPosition);
     }
 }

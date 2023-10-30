@@ -30,12 +30,15 @@ public class PipeFrame extends JFrame {
     private BossFrame bossFrame;
     private GameLoop game;
 
+    private int backgroundX1=0, backgroundX2; // x-coordinates for the two background images
+    private BufferedImage backgroundImage1, backgroundImage2;
+
     public PipeFrame(String title) {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
         playBackgroundMusic();
-
+        initializeBackground();
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -51,6 +54,16 @@ public class PipeFrame extends JFrame {
         this.setFocusable(true);
         this.requestFocusInWindow();
 
+    }
+    public void initializeBackground() {
+        try {
+            backgroundImage1 = ImageIO.read(new File("Game/resource/image/pipe-background.png"));
+            backgroundImage2 = ImageIO.read(new File("Game/resource/image/pipe-background-inverse.png")); // 加载相同的图片
+            backgroundX1 = 0;
+            backgroundX2 = GAME_WIDTH;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private void transitionToBossFrame() throws InterruptedException {
         synchronized (this) {
@@ -120,25 +133,27 @@ public class PipeFrame extends JFrame {
         }
     }
 
-    public void loadBackgroundImage() {
-        try {
-            backgroundImage = ImageIO.read(new File("Game/resource/image/pipe-background.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Rendering all game elements based on the game state.
      */
     private void doRendering(Graphics2D g2d, GameState state) {
-        loadBackgroundImage();
+        g2d.drawImage(backgroundImage1, backgroundX1, 0, GAME_WIDTH, GAME_HEIGHT, null);
+        g2d.drawImage(backgroundImage2, backgroundX2, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
-        if (backgroundImage != null) {
-            g2d.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
-        } else {
-            g2d.setColor(Color.GRAY);
-            g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        // Update the x-coordinates for the background images
+        backgroundX1 -= 10; // Move the first image to the left
+        backgroundX2 -= 10; // Move the second image to the left
+        //System.out.println("X1 " + backgroundX2);
+        //System.out.println("X2 " + backgroundX2);
+        // 当第一个背景图像完全离开屏幕时，将其移动到第二个背景图像的右侧
+        if (backgroundX1 <= -GAME_WIDTH) {
+            backgroundX1 = backgroundX2 + GAME_WIDTH;
+        }
+
+        // 当第二个背景图像完全离开屏幕时，将其移动到第一个背景图像的右侧
+        if (backgroundX2 <= -GAME_WIDTH) {
+            backgroundX2 = backgroundX1 + GAME_WIDTH;
         }
         // load  girl
         g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
@@ -174,7 +189,7 @@ public class PipeFrame extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
 
         // Title label
-        JLabel titleLabel = new JLabel("Simple Ball Game");
+        JLabel titleLabel = new JLabel();
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         c.gridx = 0;
         c.gridy = 0;
@@ -186,13 +201,16 @@ public class PipeFrame extends JFrame {
 
         c.weighty = 0.06; // No extra vertical space
         c.insets = new Insets(5, 10, 5, 10); // Reduced vertical insets
-        Dimension buttonSize = new Dimension(500, 50); // Set the width and height of the buttons
-        Font buttonFont = new Font("Arial", Font.PLAIN, 20); // Set the font size of the buttons
+        Dimension buttonSize = new Dimension(500, 80); // Set the width and height of the buttons
+        Font buttonFont = new Font("Arial", Font.BOLD, 20); // Set the font size of the buttons
 
         // "Play" button
-        JButton playButton = new JButton("Play");
+        JButton playButton = new JButton();
         playButton.setPreferredSize(buttonSize);
         playButton.setFont(buttonFont);
+        playButton.setContentAreaFilled(false);
+        playButton.setOpaque(false);
+        playButton.setBorderPainted(false);
         c.gridy = 1; // Positioning the Play button
 
         playButton.addActionListener(new ActionListener() {
@@ -206,22 +224,14 @@ public class PipeFrame extends JFrame {
         // Add the button to the panel
         menuPanel.add(playButton, c);
 
-        JButton achievementsButton = new JButton("Achievements");
-        achievementsButton.setPreferredSize(buttonSize);
-        achievementsButton.setFont(buttonFont);
-        c.gridy = 2; // Adjust the gridy value to position the button
-        achievementsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Define what happens when Achievements is clicked.
-                // You might want to display a new window or panel with achievement information.
-            }
-        });
-        menuPanel.add(achievementsButton, c);
 
-        JButton exitButton = new JButton("Exit");
+
+        JButton exitButton = new JButton();
         exitButton.setPreferredSize(buttonSize);
         exitButton.setFont(buttonFont);
+        exitButton.setContentAreaFilled(false);
+        exitButton.setOpaque(false);
+        exitButton.setBorderPainted(false);
         c.gridy = 3;
         exitButton.addActionListener(new ActionListener() {
             @Override
