@@ -1,6 +1,7 @@
 package game.sample.logic;
 
 import game.sample.entity.Bullet;
+import game.sample.entity.Heart;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -160,13 +161,19 @@ public class PipeFrame extends JFrame {
         }
         // load  girl
         g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
+        state.getGirl().setSwim(false);
+        // load slimes
 
         for (int i = 0; i < state.getSlimes().size(); i++) {
             g2d.drawImage(state.getSlimes().get(i).getSlimeImage(), state.getSlimes().get(i).getX(),state.getSlimes().get(i).getY(),null);
             state.getSlimes().get(i).render(g2d);
         }
+        //load bullets
         for (Bullet bullet : state.getBullets()) {
             bullet.render(g2d);
+        }
+        for (Heart heart : state.getHearts()) {
+            heart.render(g2d);
         }
         // Draw GAME OVER
         g2d.drawImage(healthImage, 70,650,60,30,null);

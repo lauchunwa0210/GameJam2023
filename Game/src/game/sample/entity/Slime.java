@@ -10,11 +10,12 @@ public class Slime {
     private Image slimeImage;
     private int health;
     private int x; // position
-    private final int y = 465;
+    private final int y = 445;
     private int speed;
     private final int imgWidth = 130;
-    private final int imgHeight = 50;
+    private final int imgHeight = 70;
 
+    private int damage = 10;
 
     public void setX(int x) {
         this.x = x;
@@ -27,6 +28,15 @@ public class Slime {
     public int getY() {
         return y;
     }
+
+    public int getWidth() {
+        return imgWidth;
+    }
+
+    public int getHeight() {
+        return imgHeight;
+    }
+
 
     public void setHealth(int health) {
         this.health = health;
@@ -60,6 +70,7 @@ public class Slime {
         this.x = StartX;
         this.speed = speed;
         this.health = 30;
+        
     }
 
     public void move() {
@@ -70,6 +81,10 @@ public class Slime {
         if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
             girl.setHealth(girl.getHealth() - 2);
         }
+    }
+
+    public void decreaseHealth(int damage) {
+        this.health -= damage;
     }
 
     public void render(Graphics2D g2d) {
@@ -85,4 +100,7 @@ public class Slime {
 
     }
 
+
 }
+
+
