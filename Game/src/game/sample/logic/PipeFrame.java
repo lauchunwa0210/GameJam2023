@@ -32,7 +32,7 @@ public class PipeFrame extends JFrame {
     private GameLoop game;
 
     private int backgroundX1=0, backgroundX2; // x-coordinates for the two background images
-    private BufferedImage backgroundImage1, backgroundImage2;
+    private BufferedImage backgroundImage1, backgroundImage2, damageImage, healthImage;
 
     public PipeFrame(String title) {
         super(title);
@@ -62,6 +62,8 @@ public class PipeFrame extends JFrame {
             backgroundImage2 = ImageIO.read(new File("Game/resource/image/pipe-background-inverse.png")); // 加载相同的图片
             backgroundX1 = 0;
             backgroundX2 = GAME_WIDTH;
+            damageImage = ImageIO.read(new File("Game/resource/image/damage.png"));
+            healthImage = ImageIO.read(new File("Game/resource/image/health.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,6 +141,7 @@ public class PipeFrame extends JFrame {
      * Rendering all game elements based on the game state.
      */
     private void doRendering(Graphics2D g2d, GameState state) {
+
         g2d.drawImage(backgroundImage1, backgroundX1, 0, GAME_WIDTH, GAME_HEIGHT, null);
         g2d.drawImage(backgroundImage2, backgroundX2, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
@@ -160,6 +163,7 @@ public class PipeFrame extends JFrame {
         g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
         state.getGirl().setSwim(false);
         // load slimes
+
         for (int i = 0; i < state.getSlimes().size(); i++) {
             g2d.drawImage(state.getSlimes().get(i).getSlimeImage(), state.getSlimes().get(i).getX(),state.getSlimes().get(i).getY(),null);
             state.getSlimes().get(i).render(g2d);
@@ -172,15 +176,50 @@ public class PipeFrame extends JFrame {
             heart.render(g2d);
         }
         // Draw GAME OVER
-        if (state.gameOver) {
-            String str = "GAME OVER";
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
-            int strWidth = g2d.getFontMetrics().stringWidth(str);
-            g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
-        }
-    }
+        g2d.drawImage(healthImage, 70,650,60,30,null);
+        g2d.drawImage(damageImage, 150,650,60,30,null);
+        state.getGirl().drawDamgeInfo(g2d);
+        state.getGirl().drawBar(g2d);
+//        String str = "GAME OVER";
+//        g2d.setColor(Color.WHITE);
+//        g2d.setFont(new Font("Arial", Font.BOLD, 64));
+//        int strWidth = g2d.getFontMetrics().stringWidth(str);
+//        System.out.println("strWidth: "+strWidth);
+//        System.out.println("StartX: "+(GAME_WIDTH- strWidth) / 2);
+//        g2d.drawString(str, (GAME_WIDTH- strWidth) / 2 , GAME_HEIGHT / 2 - 120);
+//        initializeButtons();
 
+
+    }
+    private void gameOverDraw(Graphics2D g2d) {
+        String str = "GAME OVER";
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.BOLD, 64));
+        int strWidth = g2d.getFontMetrics().stringWidth(str);
+        System.out.println("strWidth: "+strWidth);
+        System.out.println("StartX: "+(GAME_WIDTH- strWidth) / 2);
+        g2d.drawString(str, (GAME_WIDTH- strWidth) / 2 , GAME_HEIGHT / 2 - 120);
+        initializeButtons();
+    }
+    private void initializeButtons() {
+        JButton restartButton = new JButton("Restart");
+        restartButton.setBounds(GAME_WIDTH/2, GAME_HEIGHT/2, 100, 50); // 设置位置和大小
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 在这里添加重启游戏的代码
+            }
+        });
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(GAME_WIDTH/2, GAME_HEIGHT/2, 100, 50); // 设置位置和大小
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0); // 退出游戏
+            }
+        });
+    }
     public void showMenu() {
         ImageIcon backgroundImageIcon = new ImageIcon("Game/resource/image/cover.png");
         Image backgroundImage = backgroundImageIcon.getImage();
