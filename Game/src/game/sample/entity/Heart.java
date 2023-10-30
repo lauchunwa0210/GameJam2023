@@ -27,7 +27,7 @@ public class Heart {
         }
 
         this.x = 400 + new Random().nextInt(PipeFrame.GAME_WIDTH-400);
-        this.y = 200 + new Random().nextInt(200); // Randomize y position between 300 and 500
+        this.y = 300 + new Random().nextInt(100); // Randomize y position between 300 and 500
     }
 
     public int getX() {

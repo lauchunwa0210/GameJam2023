@@ -175,6 +175,9 @@ public class PipeFrame extends JFrame {
         for (Heart heart : state.getHearts()) {
             heart.render(g2d);
         }
+        if(state.getEffect()!= null){
+            state.getEffect().render(g2d);
+        }
         // Draw GAME OVER
         g2d.drawImage(healthImage, 70,650,60,30,null);
         g2d.drawImage(damageImage, 150,650,60,30,null);

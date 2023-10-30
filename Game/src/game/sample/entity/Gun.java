@@ -15,9 +15,27 @@ public class Gun {
     private boolean canFire = true;
     private int damage = 10;
     private BulletType bullet = BulletType.SINGLE;
+
+    public void setFireInterval(int fireInterval) {
+        this.fireInterval = fireInterval;
+    }
+
+    public int getFireInterval() {
+        return fireInterval;
+    }
+
     private Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
     private Timer timer = new Timer();
     private Clip shootSound;
+    private BulletType currentBulletType;
+
+    public void setCurrentBulletType(BulletType currentBulletType) {
+        this.currentBulletType = currentBulletType;
+    }
+
+    public BulletType getCurrentBulletType() {
+        return currentBulletType;
+    }
 
     public Gun(){
         try {
@@ -26,6 +44,7 @@ public class Gun {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        currentBulletType = BulletType.SINGLE;
     }
 
     public int getDamage() {
@@ -84,13 +103,10 @@ public class Gun {
             shootSound.setFramePosition(0); // rewind to the beginning
             shootSound.start();     // Start playing
         }
-        Bullet singleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.SINGLE);
-        Bullet doubleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.DOUBLE);
-        Bullet tripleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.TRIPLE);
+        Bullet myBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, currentBulletType);
 
         startFireCountdown();
-        //  TODO:We need to decide which type of bullet you want to return.
-        return doubleBullet;
+        return myBullet;
     }
 
 

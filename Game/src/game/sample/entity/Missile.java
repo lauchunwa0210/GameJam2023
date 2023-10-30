@@ -92,4 +92,10 @@ public class Missile {
     public boolean isOffScreen() {
         return y > BossFrame.GAME_HEIGHT;
     }
+
+    public boolean collidesWithGirl(Girl girl){
+        Rectangle missleBounds = new Rectangle(x, y, width, height);
+        Rectangle girlBounds = new Rectangle(girl.getX(), girl.getY(), girl.getImgWidth(), girl.getImgHeight());
+        return missleBounds.intersects(girlBounds);
+    }
 }

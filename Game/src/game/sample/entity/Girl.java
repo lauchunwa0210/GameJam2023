@@ -26,8 +26,17 @@ public class Girl {
     private int damage;
     private final int switchInterval = 10;
     private int animationCounter = 0;
-    public final int imgWidth = 130;
-    public final int imgHeight = 130;
+    private final int imgWidth = 130;
+
+    public int getImgWidth() {
+        return imgWidth;
+    }
+
+    public int getImgHeight() {
+        return imgHeight;
+    }
+
+    private final int imgHeight = 130;
     private boolean jumping = false;
     private final int jumpHeight = 200;   // Adjust this to change the height of the jump
     private final int swimUpHeight = 60;
