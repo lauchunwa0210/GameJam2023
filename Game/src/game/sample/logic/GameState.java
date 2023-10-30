@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.Rectangle;
 
 public class GameState {
 
@@ -160,8 +161,28 @@ public class GameState {
 			}
 		}
 
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            for (int j = 0; j < slimes.size(); j++) {
+                Slime slime = slimes.get(j);
+                if (bulletCollidesWithSlime(bullet, slime)) {
+                    slime.decreaseHealth(10);
+                    bullets.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+
 	}
 
+    private boolean bulletCollidesWithSlime(Bullet bullet, Slime slime) {
+        // Assuming Bullet and Slime classes have methods to get their positions and dimensions
+        Rectangle bulletBounds = new Rectangle(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        Rectangle slimeBounds = new Rectangle(slime.getX(), slime.getY(), slime.getWidth(), slime.getHeight());
+
+        return bulletBounds.intersects(slimeBounds);
+    }
 
     public KeyListener getKeyListener() {
         return keyHandler;
