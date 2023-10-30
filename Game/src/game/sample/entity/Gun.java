@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class Gun {
     private int bulletSpeed = 15; // Set desired bullet speed
     private int bulletDirection = 0; // Set desired bullet direction (0 for right)
-    private int fireInterval = 1000; // in milliseconds
+    private int fireInterval = 300; // in milliseconds
     private boolean canFire = true;
     private int damage = 10;
     private BulletType bullet = BulletType.SINGLE;
