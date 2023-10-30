@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Rectangle;
+import game.sample.entity.Heart;
 
 public class GameState {
 
@@ -38,6 +39,7 @@ public class GameState {
 	private Random random = new Random();
 	private boolean spawning = false;
 	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
+    private ArrayList<Heart> hearts = new ArrayList<>();
 
 
 
@@ -55,9 +57,20 @@ public class GameState {
 		boss = new Boss(980, 300, 300, 250, 1000);
 		bullets = new ArrayList<>();
         timeStart();
+        spawnHeart();
 	}
 
-	public Girl getGirl(){
+    public ArrayList<Heart> getHearts() {
+        return this.hearts;
+    }
+
+    public void spawnHeart() {
+        int randomX = new Random().nextInt(PipeFrame.GAME_WIDTH - 100); // Adjust as necessary
+        Heart heart = new Heart(randomX, PipeFrame.GAME_HEIGHT);
+        hearts.add(heart);
+    }
+
+    public Girl getGirl(){
 		return this.girl;
 	}
 	public Boss getBoss() {return this.boss;}
@@ -71,7 +84,7 @@ public class GameState {
 
     public void timeStart() {
         // Calculate a random delay in milliseconds
-        long randomDelay = (random.nextInt(3) + 1) * 1000; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+        long randomDelay = (random.nextInt(5) + 1) * 500; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
 
         // Schedule a task with the random delay
         timer.schedule(new TimerTask() {
@@ -168,6 +181,23 @@ public class GameState {
             }
         }
 
+        for (Heart heart : hearts) {
+            heart.move();
+        }
+
+        Rectangle girlBounds = new Rectangle(girl.getX(), girl.getY(), girl.imgWidth, girl.imgHeight);  // Using imgWidth and imgHeight from the Girl class directly
+
+        for (int i = 0; i < hearts.size(); i++) {
+            Heart heart = hearts.get(i);
+            Rectangle heartBounds = new Rectangle(heart.getX(), heart.getY(), heart.getWidth(), heart.getHeight());
+
+            if (girlBounds.intersects(heartBounds)) {
+                girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
+                hearts.remove(i);
+                i--;
+                spawnHeart();  // Spawn a new heart after one is picked up
+            }
+        }
 	}
 
     private boolean bulletCollidesWithSlime(Bullet bullet, Slime slime) {
