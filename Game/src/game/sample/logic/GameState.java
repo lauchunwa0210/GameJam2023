@@ -212,6 +212,9 @@ public class GameState {
                     Bullet bullet = girl.shoot();
                     if (bullet != null) bullets.add(bullet);
                     break;
+                case KeyEvent.VK_H: // "H" key for reducing boss's health
+                    boss.takeDamage(10);
+                    break;
             }
         }
 
