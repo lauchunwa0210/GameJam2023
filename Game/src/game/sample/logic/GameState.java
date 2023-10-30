@@ -172,7 +172,7 @@ public class GameState {
             for (int j = 0; j < slimes.size(); j++) {
                 Slime slime = slimes.get(j);
                 if (bulletCollidesWithSlime(bullet, slime)) {
-                    slime.decreaseHealth(10);
+                    slime.decreaseHealth();
                     bullets.remove(i);
                     i--;
                     break;
