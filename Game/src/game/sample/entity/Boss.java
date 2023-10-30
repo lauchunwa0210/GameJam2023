@@ -23,6 +23,9 @@ public class Boss {
 
     private BufferedImage bossImage;
 
+    private BufferedImage healthBarImage;
+
+
     private ArrayList<Missile> missiles;
 
     private int speedX;
@@ -38,7 +41,7 @@ public class Boss {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.lastAttackTime = System.currentTimeMillis();
-        this.attackInterval = 1000; // default attack every 2 seconds
+        this.attackInterval = 600;
         this.random = new Random();
         loadBossImage();
         missiles = new ArrayList<>();
@@ -50,6 +53,7 @@ public class Boss {
     private void loadBossImage() {
         try {
             bossImage = ImageIO.read(new File("Game/resource/image/monster-removebg-preview.png"));
+            healthBarImage = ImageIO.read(new File("Game/resource/image/Healthbar.png"));
         } catch (IOException e) {
             e.printStackTrace();
             bossImage = null;
@@ -97,13 +101,24 @@ public class Boss {
         }
 
         // Draw the health bar
-        g2d.setColor(Color.RED);
-        int healthBarWidth = (int) (((double) health / maxHealth) * width);
-        g2d.fillRect(x, y - 20, healthBarWidth, 10);
-
-        // Draw the health bar border
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y - 20, width, 10);
+        if (healthBarImage != null) {
+            int healthBarHeight = 100; // Adjust as needed
+            int offsetY = -50; // Adjust as needed to position the health bar above the boss
+            int healthBarWidth = (int) (((double) health / maxHealth) * healthBarImage.getWidth());
+            g2d.drawImage(healthBarImage,
+                    (x-90), y + offsetY,
+                    (x-600) + healthBarWidth, y + offsetY + healthBarHeight,
+                    0, 0,
+                    healthBarWidth, healthBarImage.getHeight(),
+                    null);
+        } else {
+            // Fallback if health bar image could not be loaded
+            g2d.setColor(Color.RED);
+            int healthBarWidth = (int) (((double) health / maxHealth) * width);
+            int healthBarHeight = 20; // Adjust as needed
+            int offsetY = -30; // Adjust as needed to position the health bar above the boss
+            g2d.fillRect(x, y + offsetY, healthBarWidth, healthBarHeight);
+        }
 
         for (Missile missile : missiles) {
             missile.render(g2d);
@@ -176,7 +191,7 @@ public class Boss {
     public void takeDamage(int damage) {
         if (random.nextInt(10) != 0) { // 90% chance to take damage
             health -= damage;
-            if (health < 0) {
+            if (health < 510) { //should set to 510
                 health = 0;
             }
         }

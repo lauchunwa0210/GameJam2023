@@ -30,8 +30,10 @@ public class GameState {
 	private boolean keyRIGHT, keyLEFT, keySpace;
 	public boolean gameOver, gamePass;
 	private final int GRAVITY = 3; // Gravity pulling the girl down every frame
-	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
-	private int verticalVelocity = 0; // The current vertical velocity of the girl
+    private final int SWIMGRAVITY = 4; // Gravity pulling the girl down every frame
+
+
+    private int verticalVelocity = 0; // The current vertical velocity of the girl
 
 	private Timer timer = new Timer();
 	private Random random = new Random();
@@ -100,92 +102,78 @@ public class GameState {
 	 * The method which updates the game state.
 	 */
 	public void update() {
-        if (keySpace && verticalVelocity == 0) {
+        if (keySpace && verticalVelocity == 0 && !girl.isSwim()) {
             girl.jump(); // Start the jump
         }
+        else if (keySpace && girl.isSwim()){
+            girl.jump();
+        }
+        girl.setY(girl.getY() + verticalVelocity);
 
         girl.updatePosition();
-
         // Apply vertical velocity to the girl's Y position
-        girl.setY(girl.getY() + verticalVelocity);
         girl.setY(Math.max(girl.getY(), 0));
-        girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT));
+        girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT - 200));
 
         // Apply gravity
-        verticalVelocity += GRAVITY;
+        if (!girl.isSwim()) {
+            verticalVelocity += GRAVITY;
 
-        // Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
-        if (girl.getY() >= 390) {
-            girl.setY(390);
-            verticalVelocity = 0; // Reset vertical velocity when on the ground
+            // Stop the girl from going below the ground (assuming ground is at GameFrame.GAME_HEIGHT - girl.getImageHeight())
+            if (girl.getY() >= 390) {
+                girl.setY(390);
+                verticalVelocity = 0; // Reset vertical velocity when on the ground
+            }
+        }
+        else{
+            verticalVelocity = SWIMGRAVITY;
         }
 
-        if (keyLEFT)
-            girl.setX(girl.getX() - 8);
-        if (keyRIGHT)
+        if (keyLEFT) {
+            girl.setX(girl.getX() - 15);
+        }
+        if (keyRIGHT) {
             girl.setX(girl.getX() + 8);
+        }
         // Ensure the girl's position remains within bounds
         girl.setX(Math.max(girl.getX(), 20));
         girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
         if (spawning) {
-            slime = new Slime(1000, random.nextInt(4) + 8);
+            slime = new Slime(1280, random.nextInt(4) + 8);
             slimes.add(slime);
             spawning = false;
         }
 
-        if (slimes != null && !slimes.isEmpty()) {
+        if (slimes != null && !slimes.isEmpty()){
             for (int i = 0; i < slimes.size(); i++) {
                 Slime slime = slimes.get(i);
                 slime.attack(girl);
                 slime.move();
 
                 // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth() <= 0) {
+                if (slime.getX() < 0 || slime.getHealth()<=0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
                 }
             }
         }
-
-
-
         girl.toggleImage();
+
 
         // Update the bullets' positions
         for (Bullet bullet : bullets) {
             bullet.move();
         }
-
         // Remove bullets that are off the screen
         bullets.removeIf(Bullet::isOffScreen);
-
-		if (spawning){
-			slime =  new Slime(1000, random.nextInt(4) + 8);
-			slimes.add(slime);
-			spawning = false;
-		}
-
-		if (slimes != null && !slimes.isEmpty()){
-			for (int i = 0; i < slimes.size(); i++) {
-				Slime slime = slimes.get(i);
-				slime.attack(girl);
-				slime.move();
-
-				// 检查怪物是否出屏幕，并从列表中移除
-				if (slime.getX() < 0 || slime.getHealth()<=0) {
-					slimes.remove(i);
-					i--; // 需要减小索引以避免跳过元素
-				}
-			}
-		}
 
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             for (int j = 0; j < slimes.size(); j++) {
                 Slime slime = slimes.get(j);
                 if (bulletCollidesWithSlime(bullet, slime)) {
-                    slime.decreaseHealth(10);
+                    slime.decreaseHealth(girl.getGun().getDamage());
                     bullets.remove(i);
                     i--;
                     break;
@@ -234,9 +222,11 @@ public class GameState {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
                     keyLEFT = true;
+                    girl.setRight(false);
                     break;
                 case KeyEvent.VK_D:
                     keyRIGHT = true;
+                    girl.setRight(true);
                     break;
                 case KeyEvent.VK_SPACE:
                     keySpace = true;
@@ -248,6 +238,9 @@ public class GameState {
                     Bullet bullet = girl.shoot();
                     if (bullet != null) bullets.add(bullet);
                     break;
+                case KeyEvent.VK_H: // "H" key for reducing boss's health
+                    boss.takeDamage(10);
+                    break;
             }
         }
 
@@ -256,6 +249,9 @@ public class GameState {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
                     keyLEFT = false;
+                    if(!girl.isSwim()) {
+                        girl.setRight(true);
+                    }
                     break;
                 case KeyEvent.VK_D:
                     keyRIGHT = false;
