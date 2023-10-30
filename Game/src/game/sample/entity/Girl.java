@@ -39,7 +39,6 @@ public class Girl {
         return isRight;
     }
     public void setRight(boolean right) {
-        System.out.println(right);
         isRight = right;
     }
 
