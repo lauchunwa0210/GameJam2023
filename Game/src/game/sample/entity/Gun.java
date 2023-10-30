@@ -13,6 +13,8 @@ public class Gun {
     private int bulletDirection = 0; // Set desired bullet direction (0 for right)
     private int fireInterval = 1000; // in milliseconds
     private boolean canFire = true;
+    private int damage = 10;
+    private BulletType bullet = BulletType.SINGLE;
     private Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
     private Timer timer = new Timer();
     private Clip shootSound;
@@ -24,6 +26,30 @@ public class Gun {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public void setBulletSpeed(int bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+    }
+
+    public BulletType getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(BulletType bullet) {
+        this.bullet = bullet;
     }
 
     public Bullet fire(Point position, Boolean isRight, Boolean seaScene){

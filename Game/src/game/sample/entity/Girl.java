@@ -73,6 +73,10 @@ public class Girl {
         return swim;
     }
 
+    public Gun getGun() {
+        return gun;
+    }
+
     public void setSwim(boolean swim) {
         if(!this.swim){
             this.swim = swim;

@@ -15,6 +15,8 @@ public class Slime {
     private final int imgWidth = 130;
     private final int imgHeight = 70;
 
+    private int damage = 10;
+
     public void setX(int x) {
         this.x = x;
     }
