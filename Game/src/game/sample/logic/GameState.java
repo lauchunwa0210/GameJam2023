@@ -181,6 +181,15 @@ public class GameState {
             }
         }
 
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if (bulletCollidesWithBoss(bullet, boss)) {
+                boss.takeDamage(10);  // adjust the damage value as needed
+                bullets.remove(i);
+                i--;
+            }
+        }
+
         for (Heart heart : hearts) {
             heart.move();
         }
@@ -206,6 +215,12 @@ public class GameState {
         Rectangle slimeBounds = new Rectangle(slime.getX(), slime.getY(), slime.getWidth(), slime.getHeight());
 
         return bulletBounds.intersects(slimeBounds);
+    }
+
+    private boolean bulletCollidesWithBoss(Bullet bullet, Boss boss) {
+        Rectangle bulletBounds = new Rectangle(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        Rectangle bossBounds = new Rectangle(boss.getX(), boss.getY(), boss.getWidth(), boss.getHeight());
+        return bulletBounds.intersects(bossBounds);
     }
 
     public KeyListener getKeyListener() {
