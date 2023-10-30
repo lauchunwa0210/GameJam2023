@@ -33,6 +33,26 @@ public class Boss {
     private int speedY;
 
 
+    public ArrayList<Missile> getMissiles() {
+        return missiles;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public Boss(int x, int y, int width, int height, int maxHealth) {
         this.x = x;
         this.y = y;

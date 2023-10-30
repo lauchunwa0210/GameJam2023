@@ -8,18 +8,12 @@ import java.io.IOException;
 public class Slime {
 
     private Image slimeImage;
-    private int health;
+    private int health = 20;
     private int x; // position
     private final int y = 445;
     private int speed;
     private final int imgWidth = 130;
     private final int imgHeight = 70;
-
-    private int damage = 10;
-
-    public void setX(int x) {
-        this.x = x;
-    }
 
     public int getX() {
         return x;
@@ -70,7 +64,7 @@ public class Slime {
         this.x = StartX;
         this.speed = speed;
         this.health = 30;
-        
+
     }
 
     public void move() {
@@ -78,7 +72,7 @@ public class Slime {
     }
 
     public void attack(Girl girl) {
-        if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
+        if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY() - girl.getY() <= 130) {
             girl.setHealth(girl.getHealth() - 2);
         }
     }
@@ -91,12 +85,12 @@ public class Slime {
 
         // Draw the health bar
         g2d.setColor(Color.RED);
-        int healthBarWidth = (int) (((double)this.health / 30) * 100);
-        g2d.fillRect(x+15, y - 20, healthBarWidth, 10);
+        int healthBarWidth = (int) (((double) this.health / 30) * 100);
+        g2d.fillRect(x + 15, y - 20, healthBarWidth, 10);
 
         // Draw the health bar border
         g2d.setColor(Color.BLACK);
-        g2d.drawRect(x+15, y - 20, 100, 10);
+        g2d.drawRect(x + 15, y - 20, 100, 10);
 
     }
 

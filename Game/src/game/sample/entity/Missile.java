@@ -3,8 +3,7 @@ package game.sample.entity;
 import game.sample.logic.BossFrame;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -63,10 +62,23 @@ public class Missile {
         y += speedY;
     }
 
+    private boolean hasCollided = false;
+
+    public void attack(Girl girl) {
+        if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY() - girl.getY() <= 130) {
+            girl.setHealth(girl.getHealth() - 2);
+            hasCollided = true;
+        }
+    }
+
+    public boolean hasCollided() {
+        return hasCollided;
+    }
 //    public void render(Graphics2D g2d) {
 //        g2d.setColor(Color.RED);
 //        g2d.fillRect(x, y, width, height);
 //    }
+
 
     public void render(Graphics2D g2d) {
         if (currentImage != null) {

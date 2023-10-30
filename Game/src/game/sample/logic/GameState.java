@@ -1,10 +1,7 @@
 /*** In The Name of Allah ***/
 package game.sample.logic;
 
-import game.sample.entity.Boss;
-import game.sample.entity.Girl;
-import game.sample.entity.Slime;
-import game.sample.entity.Bullet; // Importing Bullet class
+import game.sample.entity.*;
 
 
 import java.awt.event.KeyAdapter;
@@ -17,7 +14,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Rectangle;
-import game.sample.entity.Heart;
 
 public class GameState {
 
@@ -65,8 +61,19 @@ public class GameState {
     }
 
     public void spawnHeart() {
-        Heart heart = new Heart();
-        hearts.add(heart);
+        long randomDelay = (random.nextInt(3) + 1) * 1000; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+
+        // Schedule a task with the random delay
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Reschedule the task with a new random delay
+                Heart heart = new Heart();
+                hearts.add(heart);
+            }
+
+        }, randomDelay);
+
     }
 
     public Girl getGirl(){
@@ -161,6 +168,13 @@ public class GameState {
 
         girl.toggleImage();
 
+        for (Missile missile : boss.getMissiles()) {
+            missile.attack(girl);
+        }
+
+        // Remove missiles that have collided
+        boss.getMissiles().removeIf(missile -> missile.hasCollided());
+
 
         // Update the bullets' positions
         for (Bullet bullet : bullets) {
@@ -183,6 +197,16 @@ public class GameState {
             }
         }
 
+//        Boss vs gril
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            if (bulletCollidesWithBoss(bullet, boss)) {
+                boss.takeDamage(10);  // adjust the damage value as needed
+                bullets.remove(i);
+                i--;
+            }
+        }
+
         for (Heart heart : hearts) {
             heart.move();
         }
@@ -197,7 +221,7 @@ public class GameState {
                 girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
                 hearts.remove(i);
                 i--;
-//                spawnHeart();  // Spawn a new heart after one is picked up
+                spawnHeart();  // Spawn a new heart after one is picked up
             }
         }
         if (getGirl().getHealth() <= 0) {
@@ -215,6 +239,12 @@ public class GameState {
         Rectangle slimeBounds = new Rectangle(slime.getX(), slime.getY(), slime.getWidth(), slime.getHeight());
 
         return bulletBounds.intersects(slimeBounds);
+    }
+
+    private boolean bulletCollidesWithBoss(Bullet bullet, Boss boss) {
+        Rectangle bulletBounds = new Rectangle(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        Rectangle bossBounds = new Rectangle(boss.getX(), boss.getY(), boss.getWidth(), boss.getHeight());
+        return bulletBounds.intersects(bossBounds);
     }
 
     public KeyListener getKeyListener() {
