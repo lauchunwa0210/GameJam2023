@@ -68,16 +68,22 @@ public class GameState {
     }
 
     public void timeStart() {
-        // 启动一个计时器任务，用于触发怪物生成
-        timer.scheduleAtFixedRate(new TimerTask() {
+        // Calculate a random delay in milliseconds
+        long randomDelay = (random.nextInt(3) + 1) * 1000; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+
+        // Schedule a task with the random delay
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 spawning = true;
+                // Reschedule the task with a new random delay
+                timeStart();
             }
-        }, 0, 3000); // 初始延迟为0毫秒，然后每隔spawnInterval毫秒触发一次
+        }, randomDelay);
     }
 
-	/**
+
+    /**
 	 * The method which updates the game state.
 	 */
 	public void update() {
