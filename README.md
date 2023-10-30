@@ -5,7 +5,8 @@ Where do you live?
 
 <br>
 
-<img width="1274" alt="Screen Shot 2023-10-30 at 14 08 40" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/f9c3d6c5-93e6-45ec-8c04-0698dd07312c">
+<img width="1274" alt="Screen Shot 2023-10-30 at 14 08 40" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/ced09aca-60de-4bea-8471-f907e7444efa">
+
 
 <br>
 
@@ -15,15 +16,15 @@ This is a story of a little girl fight against monsters in the contaminated worl
 Will there be a day that the world turns into this spooky way? Can she survive through this? And the most important, how should we do with the environment? 
 <br>
 
+<img width="1240" alt="Screen Shot 2023-10-30 at 14 12 03" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/8d5749b1-0bcd-44ad-9e84-be786dcf7e37">
 
-<img width="1240" alt="Screen Shot 2023-10-30 at 14 12 03" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/9c77c1a6-b6e4-495b-8790-578fe279be56">
+<br>
 <br>
 
+<img width="1244" alt="Screen Shot 2023-10-30 at 14 11 12" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/eab56685-4613-4929-be9a-491861c26bd0">
 
-<img width="1244" alt="Screen Shot 2023-10-30 at 14 11 12" src="https://github.com/lauchunwa0210/GameJam2023/assets/125808581/39d3a89a-38e7-4859-8e2a-923ff489a309">
+
 <br>
-
------
 
 
 ## Key Control
@@ -33,11 +34,10 @@ Will there be a day that the world turns into this spooky way? Can she survive t
 - enter : shoot
 - esc : exit
 
+<br>
 
 
-
-
-
+-----
 
 # GameJam2023
 ## Game Flow
