@@ -21,10 +21,15 @@ public class Gun {
             return null;
         }
         canFire = false;
-        Bullet newBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage);
+        Bullet singleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.SINGLE);
+        Bullet doubleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.DOUBLE);
+        Bullet tripleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.TRIPLE);
+
         startFireCountdown();
-        return newBullet;
+        //  TODO:We need to decide which type of bullet you want to return.
+        return doubleBullet;
     }
+
 
 
     private void startFireCountdown() {
