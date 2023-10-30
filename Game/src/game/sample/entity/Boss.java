@@ -33,6 +33,22 @@ public class Boss {
     private int speedY;
 
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public Boss(int x, int y, int width, int height, int maxHealth) {
         this.x = x;
         this.y = y;
@@ -41,7 +57,7 @@ public class Boss {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.lastAttackTime = System.currentTimeMillis();
-        this.attackInterval = 600;
+        this.attackInterval = 1000;
         this.random = new Random();
         loadBossImage();
         missiles = new ArrayList<>();
@@ -159,12 +175,26 @@ public class Boss {
             speedY = -speedY; // Reverse direction
         }
 
-        // Update attack speed based on health
-        if (health < maxHealth / 4) {
-            attackInterval = 666; // Triple speed
-        } else if (health < maxHealth / 2) {
-            attackInterval = 1000; // Double speed
+//        // Update attack speed based on health
+//        if (health < (600) / 4) {
+//            attackInterval = 100; // Triple speed
+//        } else if (health < (750) / 2) {
+//            attackInterval = 200; // Double speed
+//        }else {
+//            attackInterval = 600; // Normal speed
+//        }
+
+        if (health < 600) {
+            attackInterval = 200; // Triple speed
+        } else if (health < 750) {
+            attackInterval = 500; // Double speed
+        } else {
+            attackInterval = 1000; // Normal speed
         }
+//        System.out.println("health current:"+health);
+//        System.out.println("attackIntervalh:"+attackInterval);
+
+
 
         // Handle attacking
         long currentTime = System.currentTimeMillis();
@@ -191,6 +221,7 @@ public class Boss {
     public void takeDamage(int damage) {
         if (random.nextInt(10) != 0) { // 90% chance to take damage
             health -= damage;
+//            System.out.println("health:"+health);
             if (health < 510) { //should set to 510
                 health = 0;
             }
