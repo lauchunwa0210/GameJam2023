@@ -49,6 +49,9 @@ public class Girl {
         return this.health;
     }
 
+    public Gun getGun() {
+        return gun;
+    }
 
     public Girl(int StartX, int StartY){
         try {
