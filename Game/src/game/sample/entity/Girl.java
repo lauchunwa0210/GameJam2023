@@ -38,7 +38,7 @@ public class Girl {
 
     private final int imgHeight = 130;
     private boolean jumping = false;
-    private final int jumpHeight = 200;   // Adjust this to change the height of the jump
+    private final int jumpHeight = 220;   // Adjust this to change the height of the jump
     private final int swimUpHeight = 60;
     private final int jumpSpeed = 20;    // Adjust this to change the speed of the jump
     private final int swimUpSpeed = 10;
@@ -136,7 +136,7 @@ public class Girl {
         this.gun = new Gun();
         this.x = StartX;
         this.y = StartY;
-        this.health = 100;
+        this.health = 200;
         this.isRight = true;
         this.maxHealth = this.health;
         this.damage = 10;
