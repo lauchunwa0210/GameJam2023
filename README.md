@@ -39,41 +39,38 @@ Will there be a day that the world turns into this spooky way? Can she survive t
 
 
 
-
 # GameJam2023
 ## Game Flow
- 横向躲避肉鸽游戏，最终boss战
+A side-scrolling pigeon-avoidance game, culminating in a final boss battle
 
-### 场景
-1. 横向移动躲避场景
+### Scenes
+1. Side-scrolling Avoidance Scene
 
-    物品类型：
-    - 需要躲避的会掉血的
-    - 加血的
-    - 武器
-    - 装备（待定）
-    - 机遇（选加属性的）
+    Item Types:
+    - Harmful objects that cause damage and need to be avoided
+    - Health boosters
+    - Weapons
+    - Equipment (TBD)
+    - Opportunities (for choosing and adding attributes)
 
-    风格
-    - 管道
+    Style:
+    - Pipeline
 
+2. Boss Battle Scene
 
-2. boss战场景
+    Item Types:
+    - Boss: Mutated seafood
+    - Objects to avoid
 
-    物品类型： 
-    - boss： 变异的海产
-    - 躲避
+    Style:
+    - Polluted sea area
 
-    风格
-    - 污染海域
+### Character
+- Movement: Can move up and down to dodge in Scene 1, free swimming in Scene 2
+- Initial Readiness: Start with a basic gun that can be upgraded
 
-
-### 角色
-- 移动方式：场景1时可以上下移动躲避，场景2时可以自由游泳
-- 初始战备：给个垃圾枪可以升级
-
-### 界面搭建
-- 血条
-- 属性条
-- 武器条
+### Interface Construction
+- Health Bar
+- Attribute Bar
+- Weapon Bar
 
