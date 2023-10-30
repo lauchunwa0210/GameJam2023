@@ -27,6 +27,15 @@ public class Slime {
         return y;
     }
 
+    public int getWidth() {
+        return imgWidth;
+    }
+
+    public int getHeight() {
+        return imgHeight;
+    }
+
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -72,6 +81,10 @@ public class Slime {
         }
     }
 
+    public void decreaseHealth(int damage) {
+        this.health -= damage;
+    }
+
     public void render(Graphics2D g2d) {
 
         // Draw the health bar
@@ -87,3 +100,5 @@ public class Slime {
 
 
 }
+
+

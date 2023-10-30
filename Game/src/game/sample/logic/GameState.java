@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.Rectangle;
 
 public class GameState {
 
@@ -24,7 +25,6 @@ public class GameState {
 	private Boss boss;
 	private List<Bullet> bullets;
 	private KeyHandler keyHandler;
-    private Timer timer = new Timer();
 
 	private boolean keyRIGHT, keyLEFT, keySpace;
 	public boolean gameOver, gamePass;
@@ -32,6 +32,7 @@ public class GameState {
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
 	private int verticalVelocity = 0; // The current vertical velocity of the girl
 
+	private Timer timer = new Timer();
 	private Random random = new Random();
 	private boolean spawning = false;
 	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
@@ -67,20 +68,25 @@ public class GameState {
     }
 
     public void timeStart() {
-        // 启动一个计时器任务，用于触发怪物生成
+        // Calculate a random delay in milliseconds
+        long randomDelay = (random.nextInt(3) + 1) * 1000; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+
+        // Schedule a task with the random delay
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 spawning = true;
+                // Reschedule the task with a new random delay
+                timeStart();
             }
-        }, 0, 1000); // 初始延迟为0毫秒，然后每隔spawnInterval毫秒触发一次
+        }, randomDelay);
     }
 
 
-	/**
+    /**
 	 * The method which updates the game state.
 	 */
-	public void update() throws InterruptedException {
+	public void update() {
         if (keySpace && verticalVelocity == 0) {
             girl.jump(); // Start the jump
         }
@@ -109,25 +115,27 @@ public class GameState {
         girl.setX(Math.max(girl.getX(), 20));
         girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
-        if (spawning){
-            slime =  new Slime(1280, random.nextInt(6) + 24);
+        if (spawning) {
+            slime = new Slime(1000, random.nextInt(4) + 8);
             slimes.add(slime);
             spawning = false;
         }
 
-        if (slimes != null && !slimes.isEmpty()){
+        if (slimes != null && !slimes.isEmpty()) {
             for (int i = 0; i < slimes.size(); i++) {
                 Slime slime = slimes.get(i);
                 slime.attack(girl);
                 slime.move();
 
                 // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth()<=0) {
+                if (slime.getX() < 0 || slime.getHealth() <= 0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
                 }
             }
         }
+
+
 
         girl.toggleImage();
 
@@ -139,8 +147,48 @@ public class GameState {
         // Remove bullets that are off the screen
         bullets.removeIf(Bullet::isOffScreen);
 
+		if (spawning){
+			slime =  new Slime(1000, random.nextInt(4) + 8);
+			slimes.add(slime);
+			spawning = false;
+		}
+
+		if (slimes != null && !slimes.isEmpty()){
+			for (int i = 0; i < slimes.size(); i++) {
+				Slime slime = slimes.get(i);
+				slime.attack(girl);
+				slime.move();
+
+				// 检查怪物是否出屏幕，并从列表中移除
+				if (slime.getX() < 0 || slime.getHealth()<=0) {
+					slimes.remove(i);
+					i--; // 需要减小索引以避免跳过元素
+				}
+			}
+		}
+
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            for (int j = 0; j < slimes.size(); j++) {
+                Slime slime = slimes.get(j);
+                if (bulletCollidesWithSlime(bullet, slime)) {
+                    slime.decreaseHealth(10);
+                    bullets.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+
 	}
 
+    private boolean bulletCollidesWithSlime(Bullet bullet, Slime slime) {
+        // Assuming Bullet and Slime classes have methods to get their positions and dimensions
+        Rectangle bulletBounds = new Rectangle(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        Rectangle slimeBounds = new Rectangle(slime.getX(), slime.getY(), slime.getWidth(), slime.getHeight());
+
+        return bulletBounds.intersects(slimeBounds);
+    }
 
     public KeyListener getKeyListener() {
         return keyHandler;
@@ -169,6 +217,9 @@ public class GameState {
                 case KeyEvent.VK_ENTER: // "Entre" key for firing a bullet
                     Bullet bullet = girl.shoot();
                     if (bullet != null) bullets.add(bullet);
+                    break;
+                case KeyEvent.VK_H: // "H" key for reducing boss's health
+                    boss.takeDamage(10);
                     break;
             }
         }

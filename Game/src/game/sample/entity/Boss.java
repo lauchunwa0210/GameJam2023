@@ -23,6 +23,9 @@ public class Boss {
 
     private BufferedImage bossImage;
 
+    private BufferedImage healthBarImage;
+
+
     private ArrayList<Missile> missiles;
 
     private int speedX;
@@ -38,7 +41,7 @@ public class Boss {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.lastAttackTime = System.currentTimeMillis();
-        this.attackInterval = 2000; // default attack every 2 seconds
+        this.attackInterval = 1000 + 510; // A + B, change A only
         this.random = new Random();
         loadBossImage();
         missiles = new ArrayList<>();
@@ -50,6 +53,7 @@ public class Boss {
     private void loadBossImage() {
         try {
             bossImage = ImageIO.read(new File("Game/resource/image/monster-removebg-preview.png"));
+            healthBarImage = ImageIO.read(new File("Game/resource/image/Healthbar.png"));
         } catch (IOException e) {
             e.printStackTrace();
             bossImage = null;
@@ -65,11 +69,16 @@ public class Boss {
     }
 
     private void launchMissile() {
-        int missileWidth = 10;
-        int missileHeight = 20;
-        int missileSpeed = 5;
+        int missileWidth = 50;
+        int missileHeight = 70;
+        int missileSpeed = 50;
 //        Missile missile = new Missile(x + width / 2 - missileWidth / 2, y + height, missileWidth, missileHeight, missileSpeed);
 //        missiles.add(missile);
+
+        // Calculate the missile's starting X and Y coordinates
+        int startX = x - missileWidth / 2;
+        int startY = y + height / 2 - missileHeight / 2;
+
         // Generate a random angle between 0 and 360 degrees
         double angle = Math.toRadians(random.nextInt(360));
 
@@ -77,7 +86,8 @@ public class Boss {
         int speedX = (int) (missileSpeed * Math.cos(angle));
         int speedY = (int) (missileSpeed * Math.sin(angle));
 
-        Missile missile = new Missile(x + width / 2 - missileWidth / 2, y + height, missileWidth, missileHeight, speedX, speedY);
+        Missile missile = new Missile(startX, startY, missileWidth, missileHeight, speedX, speedY);
+//        Missile missile = new Missile(x + width / 2 - missileWidth / 2, y + height, missileWidth, missileHeight, speedX, speedY);
         missiles.add(missile);
 
     }
@@ -91,13 +101,24 @@ public class Boss {
         }
 
         // Draw the health bar
-        g2d.setColor(Color.GREEN);
-        int healthBarWidth = (int) (((double) health / maxHealth) * width);
-        g2d.fillRect(x, y - 20, healthBarWidth, 10);
-
-        // Draw the health bar border
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y - 20, width, 10);
+        if (healthBarImage != null) {
+            int healthBarHeight = 100; // Adjust as needed
+            int offsetY = -50; // Adjust as needed to position the health bar above the boss
+            int healthBarWidth = (int) (((double) health / maxHealth) * healthBarImage.getWidth());
+            g2d.drawImage(healthBarImage,
+                    (x-90), y + offsetY,
+                    (x-600) + healthBarWidth, y + offsetY + healthBarHeight,
+                    0, 0,
+                    healthBarWidth, healthBarImage.getHeight(),
+                    null);
+        } else {
+            // Fallback if health bar image could not be loaded
+            g2d.setColor(Color.RED);
+            int healthBarWidth = (int) (((double) health / maxHealth) * width);
+            int healthBarHeight = 20; // Adjust as needed
+            int offsetY = -30; // Adjust as needed to position the health bar above the boss
+            g2d.fillRect(x, y + offsetY, healthBarWidth, healthBarHeight);
+        }
 
         for (Missile missile : missiles) {
             missile.render(g2d);
@@ -111,13 +132,31 @@ public class Boss {
         // Random movement
 //        x += random.nextInt(21) - 10; // Move randomly between -10 and 10
 //        y += random.nextInt(21) - 10;
+//
+//        // Boundary checking (adjust as needed)
+//        if (x < 0 || x > BossFrame.GAME_WIDTH - width) {
+//            speedX = -speedX; // Reverse direction when hitting the sides
+//        }
+//        if (y < 0 || y > BossFrame.GAME_HEIGHT - height) {
+//            speedY = -speedY; // Reverse direction when hitting top/bottom
+//        }
 
-        // Boundary checking (adjust as needed)
-        if (x < 0 || x > BossFrame.GAME_WIDTH - width) {
-            speedX = -speedX; // Reverse direction when hitting the sides
+        // Ensure the boss stays in the right half of the window
+        int halfWidth = BossFrame.GAME_WIDTH / 2;
+        if (x < halfWidth) {
+            x = halfWidth; // Set to the left edge of the right half
+            speedX = -speedX; // Reverse direction
+        } else if (x > BossFrame.GAME_WIDTH - width) {
+            x = BossFrame.GAME_WIDTH - width; // Set to the right edge of the window
+            speedX = -speedX; // Reverse direction
         }
-        if (y < 0 || y > BossFrame.GAME_HEIGHT - height) {
-            speedY = -speedY; // Reverse direction when hitting top/bottom
+
+        if (y < 0) {
+            y = 0; // Set to the top edge of the window
+            speedY = -speedY; // Reverse direction
+        } else if (y > BossFrame.GAME_HEIGHT - height) {
+            y = BossFrame.GAME_HEIGHT - height; // Set to the bottom edge of the window
+            speedY = -speedY; // Reverse direction
         }
 
         // Update attack speed based on health
@@ -152,7 +191,7 @@ public class Boss {
     public void takeDamage(int damage) {
         if (random.nextInt(10) != 0) { // 90% chance to take damage
             health -= damage;
-            if (health < 0) {
+            if (health < 510) { //should set to 510
                 health = 0;
             }
         }
