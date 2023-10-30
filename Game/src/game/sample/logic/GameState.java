@@ -65,8 +65,7 @@ public class GameState {
     }
 
     public void spawnHeart() {
-        int randomX = new Random().nextInt(PipeFrame.GAME_WIDTH - 100); // Adjust as necessary
-        Heart heart = new Heart(randomX, PipeFrame.GAME_HEIGHT);
+        Heart heart = new Heart();
         hearts.add(heart);
     }
 
@@ -195,7 +194,7 @@ public class GameState {
                 girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
                 hearts.remove(i);
                 i--;
-                spawnHeart();  // Spawn a new heart after one is picked up
+//                spawnHeart();  // Spawn a new heart after one is picked up
             }
         }
 	}
