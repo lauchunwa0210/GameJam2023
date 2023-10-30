@@ -33,10 +33,8 @@ public class Missile {
         try {
             image1 = ImageIO.read(new File("Game/resource/image/missile1.png"));
             image2 = ImageIO.read(new File("Game/resource/image/missile2.png"));
-            System.out.println("Images loaded successfully");
-
         } catch (IOException e) {
-            System.out.println("Error loading images: " + e.getMessage());
+            System.err.println("Error loading images: " + e.getMessage());
 
             e.printStackTrace();
             image1 = null;
@@ -72,10 +70,8 @@ public class Missile {
 
     public void render(Graphics2D g2d) {
         if (currentImage != null) {
-            System.out.println("Drawing image");
             g2d.drawImage(currentImage, x, y, width, height, null);
         } else {
-            System.out.println("Drawing red rectangle");
             g2d.setColor(Color.RED);
             g2d.fillRect(x, y, width, height);
         }

@@ -19,7 +19,7 @@ public class StartMenuMusicPlayer {
                 clip.start();
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
-                System.out.println("Can't find file");
+                System.err.println("Can't find file");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
