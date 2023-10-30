@@ -24,6 +24,7 @@ public class GameState {
 	private Boss boss;
 	private List<Bullet> bullets;
 	private KeyHandler keyHandler;
+    private Timer timer = new Timer();
 
 	private boolean keyRIGHT, keyLEFT, keySpace;
 	public boolean gameOver, gamePass;
@@ -31,7 +32,6 @@ public class GameState {
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
 	private int verticalVelocity = 0; // The current vertical velocity of the girl
 
-	private Timer timer = new Timer();
 	private Random random = new Random();
 	private boolean spawning = false;
 	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
@@ -68,18 +68,19 @@ public class GameState {
 
     public void timeStart() {
         // 启动一个计时器任务，用于触发怪物生成
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 spawning = true;
             }
-        }, 0, 3000); // 初始延迟为0毫秒，然后每隔spawnInterval毫秒触发一次
+        }, 0, 1000); // 初始延迟为0毫秒，然后每隔spawnInterval毫秒触发一次
     }
+
 
 	/**
 	 * The method which updates the game state.
 	 */
-	public void update() {
+	public void update() throws InterruptedException {
         if (keySpace && verticalVelocity == 0) {
             girl.jump(); // Start the jump
         }
@@ -108,27 +109,25 @@ public class GameState {
         girl.setX(Math.max(girl.getX(), 20));
         girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
-        if (spawning) {
-            slime = new Slime(1000, random.nextInt(4) + 8);
+        if (spawning){
+            slime =  new Slime(1280, random.nextInt(6) + 24);
             slimes.add(slime);
             spawning = false;
         }
 
-        if (slimes != null && !slimes.isEmpty()) {
+        if (slimes != null && !slimes.isEmpty()){
             for (int i = 0; i < slimes.size(); i++) {
                 Slime slime = slimes.get(i);
                 slime.attack(girl);
                 slime.move();
 
                 // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth() <= 0) {
+                if (slime.getX() < 0 || slime.getHealth()<=0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
                 }
             }
         }
-
-
 
         girl.toggleImage();
 
@@ -139,26 +138,6 @@ public class GameState {
 
         // Remove bullets that are off the screen
         bullets.removeIf(Bullet::isOffScreen);
-
-		if (spawning){
-			slime =  new Slime(1000, random.nextInt(4) + 8);
-			slimes.add(slime);
-			spawning = false;
-		}
-
-		if (slimes != null && !slimes.isEmpty()){
-			for (int i = 0; i < slimes.size(); i++) {
-				Slime slime = slimes.get(i);
-				slime.attack(girl);
-				slime.move();
-
-				// 检查怪物是否出屏幕，并从列表中移除
-				if (slime.getX() < 0 || slime.getHealth()<=0) {
-					slimes.remove(i);
-					i--; // 需要减小索引以避免跳过元素
-				}
-			}
-		}
 
 	}
 

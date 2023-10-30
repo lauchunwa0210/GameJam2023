@@ -4,6 +4,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Slime {
 
@@ -14,6 +17,8 @@ public class Slime {
     private int speed;
     private final int imgWidth = 130;
     private final int imgHeight = 70;
+    private Random random = new Random();
+
 
 
     public void setX(int x) {
@@ -60,6 +65,7 @@ public class Slime {
         this.x = StartX;
         this.speed = speed;
         this.health = 30;
+        
     }
 
     public void move() {
@@ -67,8 +73,8 @@ public class Slime {
     }
 
     public void attack(Girl girl) {
-        if (this.x >= girl.getX() - 130 && this.x >= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
-            girl.setHealth(girl.getHealth() - 5);
+        if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
+            girl.setHealth(girl.getHealth() - 2);
         }
     }
 
@@ -84,5 +90,6 @@ public class Slime {
         g2d.drawRect(x+15, y - 20, 100, 10);
 
     }
+
 
 }
