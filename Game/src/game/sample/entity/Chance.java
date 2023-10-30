@@ -15,9 +15,9 @@ class Chance {
         Gun gun = girl.getGun();
 //         Define all possible choices
         choices.add(new Choice("+10 Max Health", () -> girl.setHealth(girl.getHealth()+10)));
-        choices.add(new Choice("+10 damage", () -> girl.getGun().setDamage(gun.getDamage()+10)));
-        choices.add(new Choice("+10 bullet speed", () -> girl.getGun().setBulletSpeed(gun.getBulletSpeed()+10)));
-        choices.add(new Choice("+1 bullet shoot", () -> girl.getGun().updateBullet(gun.getBullet())));
+        choices.add(new Choice("+10 damage", () -> gun.setDamage(gun.getDamage()+10)));
+        choices.add(new Choice("+10 bullet speed", () -> gun.setBulletSpeed(gun.getBulletSpeed()+10)));
+        choices.add(new Choice("+1 bullet shoot", () -> gun.updateBullet(gun.getBullet())));
     }
 
     public List<Choice> getRandomChoices() {

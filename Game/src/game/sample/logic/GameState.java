@@ -65,8 +65,19 @@ public class GameState {
     }
 
     public void spawnHeart() {
-        Heart heart = new Heart();
-        hearts.add(heart);
+        long randomDelay = (random.nextInt(3) + 1) * 1000; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+
+        // Schedule a task with the random delay
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Reschedule the task with a new random delay
+                Heart heart = new Heart();
+                hearts.add(heart);
+            }
+
+        }, randomDelay);
+
     }
 
     public Girl getGirl(){
@@ -205,7 +216,7 @@ public class GameState {
                 girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
                 hearts.remove(i);
                 i--;
-//                spawnHeart();  // Spawn a new heart after one is picked up
+                spawnHeart();  // Spawn a new heart after one is picked up
             }
         }
         if (getGirl().getHealth() <= 0) {
