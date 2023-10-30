@@ -1,10 +1,7 @@
 /*** In The Name of Allah ***/
 package game.sample.logic;
 
-import game.sample.entity.Boss;
-import game.sample.entity.Girl;
-import game.sample.entity.Slime;
-import game.sample.entity.Bullet; // Importing Bullet class
+import game.sample.entity.*;
 
 
 import java.awt.event.KeyAdapter;
@@ -17,7 +14,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Rectangle;
-import game.sample.entity.Heart;
 
 public class GameState {
 
@@ -171,6 +167,13 @@ public class GameState {
 
         girl.toggleImage();
 
+        for (Missile missile : boss.getMissiles()) {
+            missile.attack(girl);
+        }
+
+        // Remove missiles that have collided
+        boss.getMissiles().removeIf(missile -> missile.hasCollided());
+
 
         // Update the bullets' positions
         for (Bullet bullet : bullets) {
@@ -193,6 +196,7 @@ public class GameState {
             }
         }
 
+//        Boss vs gril
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             if (bulletCollidesWithBoss(bullet, boss)) {
