@@ -10,10 +10,20 @@ public class Gun {
     int bulletDirection = 0; // Set desired bullet direction (0 for right)
     int fireInterval = 1000; // in milliseconds
     boolean canFire = true;
+
+    private BulletType bullet = BulletType.SINGLE;
     Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
     Timer timer = new Timer();
 
     public Gun(){
+    }
+
+    public BulletType getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(BulletType bullet) {
+        this.bullet = bullet;
     }
 
     public Bullet fire(Point position){
