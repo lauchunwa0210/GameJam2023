@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Gun {
-    int bulletSpeed = 10; // Set desired bullet speed
+    private int bulletSpeed = 10; // Set desired bullet speed
     int bulletDirection = 0; // Set desired bullet direction (0 for right)
     int fireInterval = 1000; // in milliseconds
     boolean canFire = true;
@@ -16,6 +16,14 @@ public class Gun {
     Timer timer = new Timer();
 
     public Gun(){
+    }
+
+    public int getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public void setBulletSpeed(int bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
     }
 
     public BulletType getBullet() {
