@@ -4,9 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Slime {
 
@@ -17,9 +14,6 @@ public class Slime {
     private int speed;
     private final int imgWidth = 130;
     private final int imgHeight = 70;
-    private Random random = new Random();
-
-
 
     public void setX(int x) {
         this.x = x;
