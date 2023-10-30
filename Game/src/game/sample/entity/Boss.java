@@ -33,6 +33,10 @@ public class Boss {
     private int speedY;
 
 
+    public ArrayList<Missile> getMissiles() {
+        return missiles;
+    }
+
     public int getX() {
         return x;
     }
