@@ -1,5 +1,7 @@
 package game.sample.entity;
 
+import game.sample.logic.PipeFrame;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -13,9 +15,9 @@ public class Heart {
     private int y; // y position will be randomized
     private final int imgWidth = 50;  // Adjusted for the size of heart pickup
     private final int imgHeight = 50; // Adjusted for the size of heart pickup
-    private final int speed = 20;
+    private final int speed = 10;
 
-    public Heart(int StartX, int maxY) {
+    public Heart() {
         try {
             heartImage = ImageIO.read(new File("Game/resource/image/pixel-heart.png"));
             // resize
@@ -24,8 +26,8 @@ public class Heart {
             e.printStackTrace();
         }
 
-        this.x = StartX;
-        this.y = 150 + new Random().nextInt(200); // Randomize y position between 300 and 500
+        this.x = 400 + new Random().nextInt(PipeFrame.GAME_WIDTH-400);
+        this.y = 200 + new Random().nextInt(200); // Randomize y position between 300 and 500
     }
 
     public int getX() {
