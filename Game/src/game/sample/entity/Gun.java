@@ -52,6 +52,16 @@ public class Gun {
         this.bullet = bullet;
     }
 
+    public void updateBullet(BulletType b){
+        if (b == BulletType.SINGLE){
+            setBullet(BulletType.DOUBLE);
+        } else if (b == BulletType.DOUBLE){
+            setBullet(BulletType.TRIPLE);
+        } else {
+            setBullet(BulletType.TRIPLE);
+        }
+    }
+
     public Bullet fire(Point position, Boolean isRight, Boolean seaScene){
         if (!canFire){
             return null;
