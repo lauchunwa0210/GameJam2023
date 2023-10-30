@@ -17,8 +17,8 @@ public class Girl {
     private Image currentImage;
     private final int switchInterval = 4;
     private int animationCounter = 0;
-    private final int imgWidth = 130;
-    private final int imgHeight = 130;
+    public final int imgWidth = 130;
+    public final int imgHeight = 130;
     private boolean jumping = false;
     private final int jumpHeight = 200;   // Adjust this to change the height of the jump
     private final int jumpSpeed = 20;    // Adjust this to change the speed of the jump

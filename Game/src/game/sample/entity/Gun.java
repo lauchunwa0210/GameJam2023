@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class Gun {
     int bulletSpeed = 10; // Set desired bullet speed
     int bulletDirection = 0; // Set desired bullet direction (0 for right)
-    int fireInterval = 1000; // in milliseconds
+    int fireInterval = 400; // in milliseconds
     boolean canFire = true;
     Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
     Timer timer = new Timer();

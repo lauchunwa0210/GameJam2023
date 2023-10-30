@@ -1,6 +1,7 @@
 package game.sample.logic;
 
 import game.sample.entity.Bullet;
+import game.sample.entity.Heart;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -163,6 +164,9 @@ public class PipeFrame extends JFrame {
         }
         for (Bullet bullet : state.getBullets()) {
             bullet.render(g2d);
+        }
+        for (Heart heart : state.getHearts()) {
+            heart.render(g2d);
         }
         // Draw GAME OVER
         if (state.gameOver) {
