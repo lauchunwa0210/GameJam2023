@@ -7,15 +7,25 @@ import java.util.TimerTask;
 
 public class Gun {
     private int bulletSpeed = 10; // Set desired bullet speed
-    int bulletDirection = 0; // Set desired bullet direction (0 for right)
-    int fireInterval = 1000; // in milliseconds
-    boolean canFire = true;
+    private int bulletDirection = 0; // Set desired bullet direction (0 for right)
+    private int fireInterval = 1000; // in milliseconds
+    private boolean canFire = true;
+
+    private int damage = 10;
 
     private BulletType bullet = BulletType.SINGLE;
     Image bulletImage = null; // Set bullet image or keep it as null to use default yellow rectangle
     Timer timer = new Timer();
 
     public Gun(){
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     public int getBulletSpeed() {
