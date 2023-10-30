@@ -83,7 +83,7 @@ public class Slime {
         }
     }
 
-    public void decreaseHealth() {
+    public void decreaseHealth(int damage) {
         this.health -= damage;
     }
 
