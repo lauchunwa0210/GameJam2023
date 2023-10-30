@@ -8,9 +8,11 @@ import java.io.IOException;
 public class Girl {
     private Image girlImage;
     private int health;
+    private int maxHealth;
     private int x, y; // position
     private boolean canMoveHorizontal; // true when in boss fight
     private final Gun gun;
+    private int damage;
     private Image girlMove1;
     private Image girlMove2;
     private Image girlStill;
@@ -20,8 +22,8 @@ public class Girl {
     private final int imgWidth = 130;
     private final int imgHeight = 130;
     private boolean jumping = false;
-    private final int jumpHeight = 200;   // Adjust this to change the height of the jump
-    private final int jumpSpeed = 20;    // Adjust this to change the speed of the jump
+    private final int jumpHeight = 500;   // Adjust this to change the height of the jump
+    private final int jumpSpeed = 100;// Adjust this to change the speed of the jump
     private int jumpCounter = 0;
     private final int GRAVITY = 1; // Gravity pulling the girl down every frame
 	private final int JUMP_STRENGTH = -15; // The initial upward velocity when jumping
@@ -48,7 +50,12 @@ public class Girl {
     public int getHealth(){
         return this.health;
     }
-
+    public void setMaxHealth(int maxHealth){
+        this.maxHealth = maxHealth;
+    }
+    public int getMaxHealth(){
+        return this.maxHealth;
+    }
 
     public Girl(int StartX, int StartY){
         try {
@@ -70,6 +77,8 @@ public class Girl {
         this.x = StartX;
         this.y = StartY;
         this.health = 100;
+        this.maxHealth = this.health;
+        this.damage = 10;
     }
 
     public Image getCurrentImage(){
@@ -117,4 +126,45 @@ public class Girl {
         Point bulletStartPosition = new Point(this.x + this.imgWidth, this.y + this.imgHeight / 2 + 10); // Adjust as per the desired start position of the bullet
         return gun.fire(bulletStartPosition);
     }
+
+    public void drawBar(Graphics2D g2d){
+        int x = 70;
+        int y = 600;
+        int barWidth = 150;
+        int barHeight = 20;
+        int healthWidth = (int) ((health / (double) maxHealth) * barWidth);
+
+        // Draw the background of the health bar (empty part)
+        g2d.setColor(new Color(50, 50, 50)); // Dark color for the background
+        g2d.fillRect(x, y, barWidth, barHeight);
+
+        // Draw the health portion of the bar
+        g2d.setColor(new Color(50, 255, 50)); // Bright green for health
+        g2d.fillRect(x, y, healthWidth, barHeight);
+
+        // Draw the border of the health bar
+        g2d.setColor(Color.WHITE); // White color for the border
+        g2d.drawRect(x, y, barWidth, barHeight);
+    }
+    public void drawDamgeInfo(Graphics2D g2d){
+        int x = 70;
+        int y = 600;
+        int width = 150;
+        int height = 20;
+        g2d.setColor(Color.darkGray);
+        g2d.fillRect(x, y-30, width, height);
+
+        // Draw the damage bar fill
+        g2d.setColor(Color.red);
+        for (int i = 0; i < damage; i += 2) { // Increment by 2 for larger 'pixels'
+            for (int j = 0; j < height; j += 2) {
+                g2d.fillRect(x, y-30, i, height);
+            }
+        }
+
+        // Draw a simple border
+        g2d.setColor(Color.white);
+        g2d.drawRect(x, y-30, width, height);
+    }
+
 }

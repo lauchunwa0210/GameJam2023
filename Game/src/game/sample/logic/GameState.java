@@ -159,6 +159,9 @@ public class GameState {
 				}
 			}
 		}
+        if (getGirl().getHealth() <= 0) {
+            gameOver = true;
+        }
 
 	}
 
@@ -185,6 +188,7 @@ public class GameState {
                     keySpace = true;
                     break;
                 case KeyEvent.VK_ESCAPE:
+                    System.out.println("Game Over!");
                     gameOver = true;
                     break;
                 case KeyEvent.VK_ENTER: // "Entre" key for firing a bullet

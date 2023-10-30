@@ -67,8 +67,8 @@ public class Slime {
     }
 
     public void attack(Girl girl) {
-        if (this.x >= girl.getX() - 130 && this.x >= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
-            girl.setHealth(girl.getHealth() - 5);
+        if (this.x >= girl.getX() - 130 && this.x <= girl.getX() + 130 && this.getY()-girl.getY()<= 130) {
+            girl.setHealth(girl.getHealth() - 2);
         }
     }
 
