@@ -41,7 +41,7 @@ public class Boss {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.lastAttackTime = System.currentTimeMillis();
-        this.attackInterval = 1000 + 510; // A + B, change A only
+        this.attackInterval = 600;
         this.random = new Random();
         loadBossImage();
         missiles = new ArrayList<>();
