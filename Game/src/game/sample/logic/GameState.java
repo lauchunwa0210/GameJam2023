@@ -4,21 +4,19 @@ package game.sample.logic;
 import game.sample.entity.*;
 
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List; // Import for list of bullets
-import java.util.ArrayList; // Import for ArrayList
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.awt.Rectangle;
+import java.util.List;
 
 public class GameState {
 
 	private Girl girl;
 	private Slime slime;
+    private Effect effect;
 	private Boss boss;
 	private List<Bullet> bullets;
 	private KeyHandler keyHandler;
@@ -34,6 +32,7 @@ public class GameState {
 	private Timer timer = new Timer();
 	private Random random = new Random();
 	private boolean spawning = false;
+    private boolean effectSpawning = false;
 	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
     private ArrayList<Heart> hearts = new ArrayList<>();
 
@@ -54,7 +53,12 @@ public class GameState {
 		bullets = new ArrayList<>();
         timeStart();
         spawnHeart();
+        spawnEffect();
 	}
+
+    public Effect getEffect() {
+        return effect;
+    }
 
     public ArrayList<Heart> getHearts() {
         return this.hearts;
@@ -90,7 +94,7 @@ public class GameState {
 
     public void timeStart() {
         // Calculate a random delay in milliseconds
-        long randomDelay = (random.nextInt(5) + 1) * 500; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+        long randomDelay = (random.nextInt(3) + 3) * 500; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
 
         // Schedule a task with the random delay
         timer.schedule(new TimerTask() {
@@ -101,6 +105,21 @@ public class GameState {
                 timeStart();
             }
         }, randomDelay);
+    }
+
+    public void spawnEffect(){
+        // Calculate a random delay in milliseconds
+        long r1 = (random.nextInt(1) + 1) * 100; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+
+        // Schedule a task with the random delay
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                effectSpawning = true;
+                // Reschedule the task with a new random delay
+                spawnEffect();
+            }
+        }, r1);
     }
 
 	/**
@@ -117,7 +136,6 @@ public class GameState {
         girl.updatePosition();
 
         // Apply vertical velocity to the girl's Y position
-        girl.setY(girl.getY() + verticalVelocity);
         girl.setY(Math.max(girl.getY(), 0));
         girl.setY(Math.min(girl.getY(), PipeFrame.GAME_HEIGHT - 200));
 
@@ -144,42 +162,67 @@ public class GameState {
         girl.setX(Math.max(girl.getX(), 20));
         girl.setX(Math.min(girl.getX(), PipeFrame.GAME_WIDTH - 100));
 
-        if (spawning) {
-            slime = new Slime(1280, random.nextInt(4) + 8);
-            slimes.add(slime);
-            spawning = false;
-        }
+        if (!girl.isSwim()) {
+            if (spawning) {
+                slime = new Slime(1280, random.nextInt(4) + 8);
+                slimes.add(slime);
+                spawning = false;
+            }
 
-        if (slimes != null && !slimes.isEmpty()) {
-            for (int i = 0; i < slimes.size(); i++) {
-                Slime slime = slimes.get(i);
-                slime.attack(girl);
-                slime.move();
+            if (effectSpawning) {
 
-                // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth() <= 0) {
-                    slimes.remove(i);
-                    i--; // 需要减小索引以避免跳过元素
-                    score++;
+            }
+
+            if (slimes != null && !slimes.isEmpty()) {
+                for (int i = 0; i < slimes.size(); i++) {
+                    Slime slime = slimes.get(i);
+                    slime.attack(girl);
+                    slime.move();
+
+                    // 检查怪物是否出屏幕，并从列表中移除
+                    if (slime.getX() < 0 || slime.getHealth() <= 0) {
+                        slimes.remove(i);
+                        i--; // 需要减小索引以避免跳过元素
+                        score++;
+                    }
+                }
+            }
+            for (Heart heart : hearts) {
+                heart.move();
+            }
+
+            if (effect != null){
+                effect.move();
+            }
+
+            Rectangle girlBounds = new Rectangle(girl.getX(), girl.getY(), girl.getImgWidth(), girl.getImgHeight());  // Using imgWidth and imgHeight from the Girl class directly
+
+            for (int i = 0; i < hearts.size(); i++) {
+                Heart heart = hearts.get(i);
+                Rectangle heartBounds = new Rectangle(heart.getX(), heart.getY(), heart.getWidth(), heart.getHeight());
+
+                if (girlBounds.intersects(heartBounds)) {
+                    girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
+                    hearts.remove(i);
+                    i--;
+                    spawnHeart();  // Spawn a new heart after one is picked up
+                }
+            }
+            if (getGirl().getHealth() <= 0) {
+                gameOver = true;
+            }
+
+            // effect bound
+            if (effect != null) {
+                Rectangle effectBounds = new Rectangle(effect.getX(), effect.getY(), effect.getImgWidth(), effect.getImgHeight());
+                if (girlBounds.intersects(effectBounds)) {
+                    effect.applyEffect(girl);
+                    effect = null;
                 }
             }
         }
 
-
         girl.toggleImage();
-
-        for (Missile missile : boss.getMissiles()) {
-            missile.attack(girl);
-        }
-
-        // Remove missiles that have collided
-        boss.getMissiles().removeIf(missile -> missile.hasCollided());
-
-
-        // Update the bullets' positions
-        for (Bullet bullet : bullets) {
-            bullet.move();
-        }
 
         // Remove bullets that are off the screen
         bullets.removeIf(Bullet::isOffScreen);
@@ -197,6 +240,21 @@ public class GameState {
             }
         }
 
+        // Update the bullets' positions
+        for (Bullet bullet : bullets) {
+            bullet.move();
+        }
+
+        Iterator<Missile> missileIterator = boss.getMissiles().iterator();
+        while (missileIterator.hasNext()){
+            Missile missile = missileIterator.next();
+            if(missile.collidesWithGirl(girl)){
+                girl.setHealth(girl.getHealth()-20);
+                missileIterator.remove();
+            }
+        }
+
+
 //        Boss vs gril
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
@@ -207,26 +265,8 @@ public class GameState {
             }
         }
 
-        for (Heart heart : hearts) {
-            heart.move();
-        }
 
-        Rectangle girlBounds = new Rectangle(girl.getX(), girl.getY(), girl.imgWidth, girl.imgHeight);  // Using imgWidth and imgHeight from the Girl class directly
 
-        for (int i = 0; i < hearts.size(); i++) {
-            Heart heart = hearts.get(i);
-            Rectangle heartBounds = new Rectangle(heart.getX(), heart.getY(), heart.getWidth(), heart.getHeight());
-
-            if (girlBounds.intersects(heartBounds)) {
-                girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
-                hearts.remove(i);
-                i--;
-                spawnHeart();  // Spawn a new heart after one is picked up
-            }
-        }
-        if (getGirl().getHealth() <= 0) {
-            gameOver = true;
-        }
 
     }
 				// 检查怪物是否出屏幕，并从列表中移除

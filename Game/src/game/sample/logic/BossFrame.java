@@ -2,6 +2,7 @@ package game.sample.logic;
 
 import game.sample.entity.Boss;
 import game.sample.entity.Bullet;
+import game.sample.entity.BulletType;
 import game.sample.entity.Girl;
 
 import javax.imageio.ImageIO;
@@ -22,7 +23,7 @@ public class BossFrame extends JFrame {
     protected ArrayList<Float> fpsHistory;
 
     protected BufferStrategy bufferStrategy;
-    protected BufferedImage backgroundImage,healthImage,damageImage;
+    protected BufferedImage backgroundImage,healthImage,damageImage, finalBackground;
     private StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
     private GameStart gameStarter = new GameStart();
 
@@ -69,6 +70,7 @@ public class BossFrame extends JFrame {
     public void loadBackgroundImage() {
         try {
             backgroundImage = ImageIO.read(new File("Game/resource/image/sea-boss-bg.png"));
+            finalBackground = ImageIO.read(new File("Game/resource/image/final-sea-bg.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,6 +123,10 @@ public class BossFrame extends JFrame {
 
         Girl girl = state.getGirl();
         girl.setSwim(true);
+        girl.getGun().setFireInterval(100);
+        girl.getGun().setDamage(50);
+        girl.getGun().setBullet(BulletType.DOUBLE);
+        girl.getGun().setBulletSpeed(30);
         g2d.drawImage(girl.getCurrentImage(), girl.getX(),girl.getY(), null);
 
         for (Bullet bullet : state.getBullets()) {
@@ -144,6 +150,8 @@ public class BossFrame extends JFrame {
             g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
             int strWidth = g2d.getFontMetrics().stringWidth(str);
             g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
+        }else if (!boss.isAlive()){
+            g2d.drawImage(finalBackground, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         }
     }
 
