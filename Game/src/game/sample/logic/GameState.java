@@ -37,7 +37,7 @@ public class GameState {
 	private ArrayList<Slime> slimes = new ArrayList<>(); // 怪物列表
     private ArrayList<Heart> hearts = new ArrayList<>();
 
-
+    private int score = 0;
 
 	public GameState() {
 		gameOver = false;
@@ -160,6 +160,7 @@ public class GameState {
                 if (slime.getX() < 0 || slime.getHealth() <= 0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
+                    score++;
                 }
             }
         }

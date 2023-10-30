@@ -22,7 +22,7 @@ public class BossFrame extends JFrame {
     protected ArrayList<Float> fpsHistory;
 
     protected BufferStrategy bufferStrategy;
-    protected BufferedImage backgroundImage;
+    protected BufferedImage backgroundImage,healthImage,damageImage;
     private StartMenuMusicPlayer musicPlayer = new StartMenuMusicPlayer();
     private GameStart gameStarter = new GameStart();
 
@@ -31,11 +31,18 @@ public class BossFrame extends JFrame {
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
         playBackgroundMusic();  // Start the background music
-
-
+        initialImage();
 
     }
 
+    public void initialImage(){
+        try {
+            damageImage = ImageIO.read(new File("Game/resource/image/damage.png"));
+            healthImage = ImageIO.read(new File("Game/resource/image/health.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void initBufferStrategy() throws InterruptedException {
         if (!this.isVisible()) {
             this.setVisible(true);
@@ -126,7 +133,10 @@ public class BossFrame extends JFrame {
             boss.update();
             boss.attack();
         }
-
+        g2d.drawImage(healthImage, 70,650,60,30,null);
+        g2d.drawImage(damageImage, 150,650,60,30,null);
+        state.getGirl().drawDamgeInfo(g2d);
+        state.getGirl().drawBar(g2d);
         // Draw GAME OVER
         if (state.gameOver) {
             String str = "GAME OVER";
