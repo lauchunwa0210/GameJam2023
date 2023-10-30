@@ -102,8 +102,7 @@ public class GameState {
 	public void update() {
         if (keySpace && verticalVelocity == 0 && !girl.isSwim()) {
             girl.jump(); // Start the jump
-        }
-        else if (keySpace && girl.isSwim()){
+        } else if (keySpace && girl.isSwim()) {
             girl.jump();
         }
         girl.setY(girl.getY() + verticalVelocity);
@@ -124,8 +123,7 @@ public class GameState {
                 girl.setY(390);
                 verticalVelocity = 0; // Reset vertical velocity when on the ground
             }
-        }
-        else{
+        } else {
             verticalVelocity = SWIMGRAVITY;
         }
 
@@ -145,20 +143,19 @@ public class GameState {
             spawning = false;
         }
 
-        if (slimes != null && !slimes.isEmpty()){
+        if (slimes != null && !slimes.isEmpty()) {
             for (int i = 0; i < slimes.size(); i++) {
                 Slime slime = slimes.get(i);
                 slime.attack(girl);
                 slime.move();
 
                 // 检查怪物是否出屏幕，并从列表中移除
-                if (slime.getX() < 0 || slime.getHealth()<=0) {
+                if (slime.getX() < 0 || slime.getHealth() <= 0) {
                     slimes.remove(i);
                     i--; // 需要减小索引以避免跳过元素
                 }
             }
         }
-
 
 
         girl.toggleImage();
@@ -202,17 +199,14 @@ public class GameState {
 //                spawnHeart();  // Spawn a new heart after one is picked up
             }
         }
-	}
-				// 检查怪物是否出屏幕，并从列表中移除
-				if (slime.getX() < 0 || slime.getHealth()<=0) {
-					slimes.remove(i);
-					i--; // 需要减小索引以避免跳过元素
-				}
-			}
-		}
         if (getGirl().getHealth() <= 0) {
             gameOver = true;
         }
+
+    }
+				// 检查怪物是否出屏幕，并从列表中移除
+
+
 
     private boolean bulletCollidesWithSlime(Bullet bullet, Slime slime) {
         // Assuming Bullet and Slime classes have methods to get their positions and dimensions

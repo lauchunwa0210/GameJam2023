@@ -16,8 +16,14 @@ public class Girl {
     private Image girlMoveRight2;
     private Image girlMoveLeft1;
     private Image girlMoveLeft2;
-    private int damage;
+    private Image girlStill;
+    private Image girlSwimDownRight;
+    private Image girlSwimUpRight;
+    private Image girlSwimDownLeft;
+    private Image girlSwimUpLeft;
     private Image currentImage;
+
+    private int damage;
     private final int switchInterval = 10;
     private int animationCounter = 0;
     public final int imgWidth = 130;
