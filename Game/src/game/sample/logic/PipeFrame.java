@@ -58,7 +58,7 @@ public class PipeFrame extends JFrame {
     public void initializeBackground() {
         try {
             backgroundImage1 = ImageIO.read(new File("Game/resource/image/pipe-background.png"));
-            backgroundImage2 = ImageIO.read(new File("Game/resource/image/pip2.png")); // 加载相同的图片
+            backgroundImage2 = ImageIO.read(new File("Game/resource/image/pipe-background-inverse.png")); // 加载相同的图片
             backgroundX1 = 0;
             backgroundX2 = GAME_WIDTH;
         } catch (IOException e) {
@@ -133,13 +133,6 @@ public class PipeFrame extends JFrame {
         }
     }
 
-    public void loadBackgroundImage() {
-        try {
-            backgroundImage = ImageIO.read(new File("Game/resource/image/pipe-background.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Rendering all game elements based on the game state.
@@ -149,8 +142,8 @@ public class PipeFrame extends JFrame {
         g2d.drawImage(backgroundImage2, backgroundX2, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
         // Update the x-coordinates for the background images
-        backgroundX1 -= 20; // Move the first image to the left
-        backgroundX2 -= 20; // Move the second image to the left
+        backgroundX1 -= 10; // Move the first image to the left
+        backgroundX2 -= 10; // Move the second image to the left
         //System.out.println("X1 " + backgroundX2);
         //System.out.println("X2 " + backgroundX2);
         // 当第一个背景图像完全离开屏幕时，将其移动到第二个背景图像的右侧
