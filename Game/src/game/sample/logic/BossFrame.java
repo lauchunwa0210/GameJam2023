@@ -1,6 +1,8 @@
 package game.sample.logic;
 
 import game.sample.entity.Boss;
+import game.sample.entity.Bullet;
+import game.sample.entity.Girl;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -110,6 +112,13 @@ public class BossFrame extends JFrame {
             g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         }
 
+        Girl girl = state.getGirl();
+        girl.setSwim(true);
+        g2d.drawImage(girl.getCurrentImage(), girl.getX(),girl.getY(), null);
+
+        for (Bullet bullet : state.getBullets()) {
+            bullet.render(g2d);
+        }
         // load boss
         Boss boss = state.getBoss();
         if (boss.isAlive()) {

@@ -157,6 +157,7 @@ public class PipeFrame extends JFrame {
         }
         // load  girl
         g2d.drawImage(state.getGirl().getCurrentImage(), state.getGirl().getX(), state.getGirl().getY(), null);
+        state.getGirl().setSwim(false);
         // load slimes
         for (int i = 0; i < state.getSlimes().size(); i++) {
             g2d.drawImage(state.getSlimes().get(i).getSlimeImage(), state.getSlimes().get(i).getX(),state.getSlimes().get(i).getY(),null);

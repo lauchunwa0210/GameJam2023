@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Gun {
-    int bulletSpeed = 10; // Set desired bullet speed
+    int bulletSpeed = 15; // Set desired bullet speed
     int bulletDirection = 0; // Set desired bullet direction (0 for right)
     int fireInterval = 1000; // in milliseconds
     boolean canFire = true;
@@ -16,11 +16,21 @@ public class Gun {
     public Gun(){
     }
 
-    public Bullet fire(Point position){
+    public Bullet fire(Point position, Boolean isRight, Boolean seaScene){
         if (!canFire){
             return null;
         }
         canFire = false;
+        if(isRight){
+            bulletDirection = 0;
+        } else{
+            bulletDirection = 180;
+        }
+
+        if (!seaScene && isRight){
+            bulletSpeed += 10;
+        }
+
         Bullet singleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.SINGLE);
         Bullet doubleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.DOUBLE);
         Bullet tripleBullet = new Bullet(position, bulletSpeed, bulletDirection, bulletImage, BulletType.TRIPLE);
