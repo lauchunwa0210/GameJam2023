@@ -109,7 +109,7 @@ public class GameState {
 
     public void spawnEffect(){
         // Calculate a random delay in milliseconds
-        long r1 = (random.nextInt(1) + 1) * 100; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
+        long r1 = (random.nextInt(10) + 5) * 500; // This will produce a delay between 1 to 5 seconds. Adjust as needed.
 
         // Schedule a task with the random delay
         timer.schedule(new TimerTask() {
@@ -117,7 +117,6 @@ public class GameState {
             public void run() {
                 effectSpawning = true;
                 // Reschedule the task with a new random delay
-                spawnEffect();
             }
         }, r1);
     }
@@ -164,13 +163,14 @@ public class GameState {
 
         if (!girl.isSwim()) {
             if (spawning) {
-                slime = new Slime(1280, random.nextInt(4) + 8);
+                slime = new Slime(1280, random.nextInt(10) + 13);
                 slimes.add(slime);
                 spawning = false;
             }
 
             if (effectSpawning) {
-
+                effect = new Effect();
+                effectSpawning = false;
             }
 
             if (slimes != null && !slimes.isEmpty()) {
@@ -202,7 +202,7 @@ public class GameState {
                 Rectangle heartBounds = new Rectangle(heart.getX(), heart.getY(), heart.getWidth(), heart.getHeight());
 
                 if (girlBounds.intersects(heartBounds)) {
-                    girl.setHealth(Math.min(100, girl.getHealth() + 10)); // Increase health by 10 but don't exceed 100
+                    girl.setHealth(Math.min(girl.getMaxHealth(), girl.getHealth() + 30)); // Increase health by 10 but don't exceed 100
                     hearts.remove(i);
                     i--;
                     spawnHeart();  // Spawn a new heart after one is picked up
@@ -218,6 +218,8 @@ public class GameState {
                 if (girlBounds.intersects(effectBounds)) {
                     effect.applyEffect(girl);
                     effect = null;
+                    spawnEffect();
+
                 }
             }
         }

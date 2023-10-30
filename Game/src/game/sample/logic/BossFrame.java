@@ -125,7 +125,7 @@ public class BossFrame extends JFrame {
         girl.setSwim(true);
         girl.getGun().setFireInterval(100);
         girl.getGun().setDamage(50);
-        girl.getGun().setBullet(BulletType.DOUBLE);
+        girl.getGun().setBullet(BulletType.TRIPLE);
         girl.getGun().setBulletSpeed(30);
         g2d.drawImage(girl.getCurrentImage(), girl.getX(),girl.getY(), null);
 

@@ -63,7 +63,7 @@ public class Slime {
 
         this.x = StartX;
         this.speed = speed;
-        this.health = 30;
+        this.health = 20;
 
     }
 

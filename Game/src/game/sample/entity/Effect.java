@@ -57,7 +57,7 @@ public class Effect {
 
     public Effect(){
         this.x = 400 + new Random().nextInt(PipeFrame.GAME_WIDTH-400);
-        this.y = 200 + new Random().nextInt(200); // Randomize y position between 300 and 500
+        this.y = 300 + new Random().nextInt(100); // Randomize y position between 300 and 500
         effectTypes[] effects = effectTypes.values();
         int randomIndex = new Random().nextInt(effects.length);
         currentEffect =  effects[randomIndex];
@@ -84,14 +84,19 @@ public class Effect {
         switch (currentEffect){
             case INCREASE_MAX_HEALTH:
                 currentImage = maxHealth;
+                break;
             case INCREASE_DAMAGE:
                 currentImage = damage;
+                break;
             case DOUBLE_SHOOT:
                 currentImage = doubleShoot;
+                break;
             case BULLET_SPREAD:
                 currentImage = spread;
+                break;
             case INCREASE_SPEED:
                 currentImage = shootSpeed;
+                break;
         }
 
     }
@@ -100,14 +105,19 @@ public class Effect {
         switch (currentEffect){
             case INCREASE_MAX_HEALTH:
                 girl.setMaxHealth(girl.getMaxHealth()+10);
+                break;
             case INCREASE_DAMAGE:
                 girl.getGun().setDamage(girl.getGun().getDamage()+10);
+                break;
             case DOUBLE_SHOOT:
                 girl.getGun().setCurrentBulletType(BulletType.DOUBLE);
+                break;
             case BULLET_SPREAD:
                 girl.getGun().setCurrentBulletType(BulletType.TRIPLE);
+                break;
             case INCREASE_SPEED:
                 girl.getGun().setFireInterval(girl.getGun().getFireInterval() - 100);
+                break;
         }
     }
 
